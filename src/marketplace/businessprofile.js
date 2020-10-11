@@ -13,13 +13,13 @@ class BusinessProfile extends Component {
   }) => {
     return (
       <div>
-        <h3>Name: {name}</h3>
-        <h3>Location: {location}</h3>
-        <h3>Industry: {industry}</h3>
-        <h3>Founder: {founder_name}</h3>
-        <h3>Business Type: {biz_type}</h3>
-        <h3>Employees: {employees}</h3>
-        <h3>Revenue: {revenue}</h3>
+        <h5>Name: {name}</h5>
+        <h5>Location: {location}</h5>
+        <h5>Industry: {industry}</h5>
+        <h5>Founder: {founder_name}</h5>
+        <h5>Business Type: {biz_type}</h5>
+        <h5>Employees: {employees}</h5>
+        <h5>Revenue: {revenue}</h5>
       </div>
     );
   };
@@ -35,9 +35,9 @@ class BusinessProfile extends Component {
   renderActiveBids = () => {
     return (
       <div>
-        <h2>Bid Detail</h2>
-        <h3>Number of Bids: {this.props.business.bids.length}</h3>
-        <h3>Average Bid Price: ${this.averageBidPrice()}</h3>
+        <h3>Bid Detail</h3>
+        <h4>Number of Bids: {this.props.business.bids.length}</h4>
+        <h4>Average Bid Price: ${this.averageBidPrice()}</h4>
       </div>
     );
   };
@@ -45,14 +45,15 @@ class BusinessProfile extends Component {
   renderTransactions = () => {
     return (
       <div>
-        <h2>Past Transaction Summary</h2>
-        <h3>Placeholder for finalized transactions</h3>
+        <h3>Past Transaction Summary</h3>
+        <h4>Placeholder for finalized transactions</h4>
       </div>
     );
   };
 
   renderBidForm = () => {
-    if (this.props.user.profileType === "buyer") {
+    console.log(this.props.profileData)
+    if (this.props.profileData.userType === "buyer") {
       return (
         <div>
           <BidForm />

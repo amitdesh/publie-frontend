@@ -9,14 +9,13 @@ class MarketplaceContainer extends Component {
     businessTiles: [],
   };
 
-  componentDidMount() {
-    let token = this.props.userData.activeUser.jwt;
+  componentDidMount(){
     const options = {
       method: "GET",
       headers: {
         "content-type": "application/json",
         accepts: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.token}`,
       },
     };
     fetch("http://localhost:3000/businesses", options)
@@ -32,7 +31,7 @@ class MarketplaceContainer extends Component {
   renderBusinessTiles = () => {
     console.log(this.state.businessTiles);
     return this.state.businessTiles.map((business) => {
-      return <BusinessTile key={business.id} business={business} />;
+      return <BusinessTile key={business.id} business={business} profileData={this.props.userData} />;
     });
   };
 
@@ -41,7 +40,7 @@ class MarketplaceContainer extends Component {
       <div>
         <SearchForm />
         <h1>{this.renderBusinessTiles()}</h1>
-        <Switch>
+        {/* <Switch>
           <Route
             path="/marketplace/:id"
             render={({ match }) => {
@@ -50,10 +49,10 @@ class MarketplaceContainer extends Component {
                 (business) => business.id === id
               );
               console.log("Found business:", foundBusiness);
-              return <BusinessProfile business={foundBusiness} />;
+              return <BusinessProfile business={foundBusiness} profileData={this.props.userData} />;
             }}
           />
-        </Switch>
+        </Switch> */}
       </div>
     );
   }

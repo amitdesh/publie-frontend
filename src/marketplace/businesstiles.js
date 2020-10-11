@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink, Route } from "react-router-dom";
+import { NavLink, Route, withRouter } from "react-router-dom";
 import BusinessProfile from "./businessprofile";
 
 class BusinessTile extends Component {
@@ -22,18 +22,18 @@ class BusinessTile extends Component {
         <NavLink to={`/marketplace/${this.props.business.id}`}>
           <h3>{this.props.business.name}</h3>
         </NavLink>
-        <Route
-          path={`/marketplace/${this.props.business.id}`}
-          render={() => <BusinessProfile />}
-        />
         <div>
           <h3>Name: {this.props.business.name}</h3>
           <h3>Founder: {this.props.business.founder_name}</h3>
           <h3>Industry: {this.props.business.industry}</h3>
         </div>
         {this.summaryFunctions()}
+        <Route
+          path={`/marketplace/${this.props.business.id}`}
+          render={() => <BusinessProfile business={this.props.business} profileData={this.props.profileData} />}
+        />
       </div>
     );
   }
 }
-export default BusinessTile;
+export default withRouter(BusinessTile);
