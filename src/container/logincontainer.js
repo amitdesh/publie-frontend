@@ -31,7 +31,8 @@ class LoginContainer extends Component {
     fetch(`http://localhost:3000/${userType}login`, options)
       .then((resp) => resp.json())
       .then((user) => {
-        this.props.setActiveUser(user, userType);
+        console.log(user)
+        this.props.setActiveUser(user, userType, user[userType].bids, user[userType].businesses);
         localStorage.setItem("token", user.jwt);
         this.props.history.push("/profile");
       });

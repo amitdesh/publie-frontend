@@ -25,11 +25,14 @@ class BusinessProfile extends Component {
   };
 
   averageBidPrice = () => {
-    let totalPrice = this.props.business.bids.reduce(
-      (a, b) => a.bid_price + b.bid_price
-    );
     let bidCount = this.props.business.bids.length;
-    return totalPrice / bidCount;
+    if (bidCount > 0){
+      let totalPrice = this.props.business.bids.reduce(
+        (b) => 0 + b.bid_price)
+        return totalPrice / bidCount;
+    } else {
+      return 0
+    }
   };
 
   renderActiveBids = () => {
@@ -56,13 +59,14 @@ class BusinessProfile extends Component {
     if (this.props.profileData.userType === "buyer") {
       return (
         <div>
-          <BidForm />
+          <BidForm profileData={this.props.profileData} business={this.props.business} addBid={this.props.addBid} />
         </div>
       );
     }
   };
 
   render() {
+    console.log(this.props.business.bids)
     return (
       <div>
         {this.props.business === undefined ? (

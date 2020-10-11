@@ -7,7 +7,7 @@ class ProfileContainer extends Component {
     console.log(this.props.userData);
     if (this.props.userData.userType === "buyer") {
       return (
-        <BuyerProfile profileData={this.props.userData.activeUser.buyer} />
+        <BuyerProfile profileData={this.props.userData} />
       );
     } else {
       return (

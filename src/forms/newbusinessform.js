@@ -19,10 +19,45 @@ class NewBusinessForm extends Component {
     }));
   };
 
+  submitHandler = (e) => {
+    e.preventDefault()
+    e.persist()
+    this.bizSubmitHandler()
+    this.setState(()=>({
+      [e.target.name]: ""
+    }))
+  }
+
+  bizSubmitHandler = () =>{
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accepts: "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+      body: JSON.stringify({
+        seller_id: this.props.profileData.id,
+        name:this.state.name,
+        location:this.state.location,
+        industry:this.state.industry,
+        founder_name:this.state.founder_name,
+        biz_type:this.state.biz_type,
+        employees:this.state.employees,
+        revenue:this.state.revenue,
+        description:this.state.description
+        })};
+    fetch("http://localhost:3000/businesses", options)
+      .then((resp) => resp.json())
+      .then((bid) => {
+        console.log(bid);
+      });
+  }
+
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit= {this.submitHandler}>
           <label for="name">Business Name</label>
           <input
             type="text"

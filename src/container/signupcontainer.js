@@ -35,8 +35,11 @@ class SignupContainer extends Component {
     console.log(this.state.profileType);
     fetch("http://localhost:3000/buyers", options)
       .then((resp) => resp.json())
-      .then(console.log);
-  };
+      .then((user) => {
+        this.props.setActiveUser(user, this.state.profileType);
+        localStorage.setItem("token", user.jwt);
+        this.props.history.push("/profile");
+  })};
 
   sellerSignupRequest = (signupInfo) => {
     let options = {
@@ -50,8 +53,12 @@ class SignupContainer extends Component {
     console.log(this.state.profileType);
     fetch("http://localhost:3000/sellers", options)
       .then((resp) => resp.json())
-      .then(console.log);
-  };
+      .then((user) => {
+        this.props.setActiveUser(user, this.state.profileType);
+        localStorage.setItem("token", user.jwt);
+        this.props.history.push("/profile");
+  })
+};
 
   render() {
     return (
@@ -92,4 +99,4 @@ class SignupContainer extends Component {
     );
   }
 }
-export default withRouter(SignupContainer);
+export default withRouter(SignupContainer)

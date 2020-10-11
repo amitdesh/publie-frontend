@@ -31,7 +31,7 @@ class MarketplaceContainer extends Component {
   renderBusinessTiles = () => {
     console.log(this.state.businessTiles);
     return this.state.businessTiles.map((business) => {
-      return <BusinessTile key={business.id} business={business} profileData={this.props.userData} />;
+      return <BusinessTile key={business.id} business={business} profileData={this.props.userData} addBid={this.props.addBid} />;
     });
   };
 

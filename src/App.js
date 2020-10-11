@@ -10,14 +10,25 @@ class App extends React.Component {
   state = {
     activeUser: null,
     userType: "",
+    bids: "",
+    businesses: ""
   };
 
-  setActiveUser = (profileCreds, profileType) => {
+  setActiveUser = (profileCreds, profileType, userBids, userBusinesses) => {
     this.setState(() => ({
       activeUser: profileCreds,
       userType: profileType,
+      bids: userBids,
+      businesses: userBusinesses
     }));
   };
+
+  addBids = (bidInfo, businessInfo) => {
+    this.setState(()=>({
+      bids: [...this.state.bids, bidInfo],
+      businesses: [...this.state.businesses, businessInfo]
+    }), console.log(this.state.bids))
+  }
 
   render() {
     return (
@@ -65,6 +76,7 @@ class App extends React.Component {
               <MarketplaceContainer
                 userData={this.state}
                 setActiveUser={this.setActiveUser}
+                addBid={this.addBids}
               />
             )}
           />

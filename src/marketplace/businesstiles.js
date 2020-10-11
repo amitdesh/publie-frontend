@@ -30,7 +30,7 @@ class BusinessTile extends Component {
         {this.summaryFunctions()}
         <Route
           path={`/marketplace/${this.props.business.id}`}
-          render={() => <BusinessProfile business={this.props.business} profileData={this.props.profileData} />}
+          render={() => <BusinessProfile business={this.props.business} profileData={this.props.profileData} addBid={this.props.addBid} />}
         />
       </div>
     );
