@@ -7,11 +7,11 @@ class ProfileContainer extends Component {
     console.log(this.props.userData);
     if (this.props.userData.userType === "buyer") {
       return (
-        <BuyerProfile profileData={this.props.userData} />
+        <BuyerProfile profileData={this.props.userData} removeBid={this.props.removeBid} />
       );
     } else {
       return (
-        <SellerProfile profileData={this.props.userData.activeUser.seller} />
+        <SellerProfile profileData={this.props.userData} removeBidSeller={this.props.removeBidSeller} removeBiz={this.props.removeBiz} />
       );
     }
   }

@@ -30,6 +30,27 @@ class App extends React.Component {
     }), console.log(this.state.bids))
   }
 
+  removeBid = (bidID, bizID) =>{
+    this.setState(()=>({
+      bids: this.state.bids.filter(bids => bids.id !== bidID),
+      businesses: this.state.businesses.filter(biz => biz.id !== bizID),
+    }))
+  }
+
+  removeBidSeller = (bidID) =>{
+    this.setState(()=>({
+      bids: this.state.bids.filter(bids => bids.id !== bidID),
+    }))
+  }
+
+  removeBiz = (bizID) =>{
+    this.setState(()=>({
+      bids: this.state.bids.filter(bid => bid.business_id !== bizID),
+      businesses: this.state.businesses.filter(biz => biz.id !== bizID),
+    }))
+  }
+
+
   render() {
     return (
       <div>
@@ -67,6 +88,9 @@ class App extends React.Component {
               <ProfileContainer
                 userData={this.state}
                 setActiveUser={this.setActiveUser}
+                removeBid={this.removeBid}
+                removeBidSeller={this.removeBidSeller}
+                removeBiz={this.removeBiz}
               />
             )}
           />
