@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {withRouter } from "react-router-dom";
 
 class BuyerProfile extends Component {
 
@@ -20,11 +21,34 @@ class BuyerProfile extends Component {
         <h3>AUM: {this.props.profileData.activeUser.buyer.aum}</h3>
         <h3>Primary Industry of Interest: {this.props.profileData.activeUser.buyer.industry}</h3>
         <h3>Email Address: {this.props.profileData.activeUser.buyer.email_address}</h3>
+        <button onClick={this.logoutProfile}>Log-out</button>
+        <button onClick={() => this.deleteProfile(this.props.profileData.activeUser.seller.id)}>Delete Profile</button>
       </div>
     );
   };
 
+  deleteProfile = (buyerID) =>{
+    let options ={
+      method: "DELETE",
+      headers:{
+        "content-type": "application/json",
+        "accepts": "application/json",
+        "Authorization": `Bearer ${localStorage.token}`
+      }
+    }
+    fetch(`http://localhost:3000/sellers/${buyerID}`, options)
+      .then((bid) => {
+        this.props.history.push("/")
+      });
+  }
+
+  logoutProfile = () =>{
+    localStorage.setItem("token", "")
+    this.props.history.push("/")
+  }
+
   renderBidSummary = () => {
+    console.log("Businesses to render", this.state.businesses)
     // let businesses = this.props.profileData.businesses
     // let bids = this.props.profileData.bids
     let businesses = this.state.businesses
@@ -76,7 +100,7 @@ class BuyerProfile extends Component {
           bids: this.state.bids.filter(bids => bids.id !== bidID),
           businesses: this.state.businesses.filter(biz => biz.id !== bizID),
         }))
-        // this.history.push("/marketplace")
+        this.props.history.push("/marketplace")
       });
   }
 
@@ -130,4 +154,4 @@ class BuyerProfile extends Component {
   }
 }
 
-export default BuyerProfile;
+export default withRouter(BuyerProfile);

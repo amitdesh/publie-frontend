@@ -36,6 +36,7 @@ class MarketplaceContainer extends Component {
   };
 
   render() {
+  if (localStorage.token === ""){return <h1>Please log-in to see this page</h1>} else { 
     return (
       <div>
         <SearchForm />
@@ -56,5 +57,6 @@ class MarketplaceContainer extends Component {
       </div>
     );
   }
+}
 }
 export default withRouter(MarketplaceContainer);

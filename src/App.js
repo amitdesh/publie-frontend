@@ -10,8 +10,8 @@ class App extends React.Component {
   state = {
     activeUser: null,
     userType: "",
-    bids: "",
-    businesses: ""
+    bids: [],
+    businesses: []
   };
 
   setActiveUser = (profileCreds, profileType, userBids, userBusinesses) => {
@@ -19,7 +19,7 @@ class App extends React.Component {
       activeUser: profileCreds,
       userType: profileType,
       bids: userBids,
-      businesses: userBusinesses
+      businesses: userBusinesses,
     }));
   };
 

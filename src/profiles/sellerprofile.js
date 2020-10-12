@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink, Route } from "react-router-dom";
+import { NavLink, Route, withRouter } from "react-router-dom";
 import NewBusinessForm from "../forms/newbusinessform"
 
 class SellerProfile extends Component {
@@ -7,14 +7,14 @@ class SellerProfile extends Component {
   state = {
     bids: [],
     businesses: [],
-    txns: []
+    txns: [],
   }
 
   componentDidMount(){
     this.setState(()=>({
       bids: this.props.profileData.bids,
       businesses: this.props.profileData.businesses,
-      txns: this.props.profileData.bids.filter(bid => bid.winning_bid)
+      txns: this.props.profileData.bids.filter(bid => bid.winning_bid),
     }))
   }
 
@@ -28,9 +28,31 @@ class SellerProfile extends Component {
           {this.props.profileData.activeUser.seller.last_name}
         </h3>
         <h3>Email Address: {this.props.profileData.activeUser.seller.email_address}</h3>
+        <button onClick={this.logoutProfile}>Log-out</button>
+        <button onClick={() => this.deleteProfile(this.props.profileData.activeUser.seller.id)}>Delete Profile</button>
       </div>
     );
   };
+
+  deleteProfile = (sellerID) =>{
+    let options ={
+      method: "DELETE",
+      headers:{
+        "content-type": "application/json",
+        "accepts": "application/json",
+        "Authorization": `Bearer ${localStorage.token}`
+      }
+    }
+    fetch(`http://localhost:3000/sellers/${sellerID}`, options)
+      .then((bid) => {
+        this.props.history.push("/")
+      });
+  }
+
+  logoutProfile = () =>{
+    localStorage.setItem("token", "")
+    this.props.history.push("/")
+  }
 
   renderBusinesses = () =>{
     return this.state.businesses.map(biz =>{return (
@@ -59,47 +81,43 @@ class SellerProfile extends Component {
         }))
         // this.history.push("/marketplace")
       });
-
-
   }
 
-  renderBidSummary = () => {
-    console.log("Bids", this.state.bids,"businesses", this.state.businesses)
-    // let businesses = this.props.profileData.businesses
-    // let bids = this.props.profileData.bids
-    let businesses = this.state.businesses
-    let bids = this.state.bids
-    let newArray = []
-    for(let i=0; i<bids.length; i++){
-      if (bids.business_id === businesses.id){
-      let bidSum = {
-        name:businesses.name,
-        price: bids[i].bid_price,
-        cash_consid: bids[i].cash_consid*100,
-        closing_timeline: bids[i].closing_timeline,
-        bid_id: bids[i].id,
-        biz_id: businesses[i].id,
-        buyer_id: bids[i].buyer_id,
-        winning_bid: bids[i].winning_bid
-      }
-      newArray.push(bidSum)
-    }
-    console.log(newArray)
-  }
-    return newArray.map((bidSum) =>{
-        return(
-          <div>
-          <h4>Business Name: {bidSum.name}</h4>
-          <h4>Bid Price: ${bidSum.price}</h4>
-          <h4>Cash Consideration: {bidSum.cash_consid}%</h4>
-          <h4>Closing Timeline: {(bidSum.closing_timeline)} days</h4>
-          <h4>Winning Bid: {(bidSum.winning_bid) ? <h4>Yes</h4>: <h4>No</h4>}</h4>
-          <button onClick={()=> this.localDeleteBidHandler(bidSum.bid_id)}>Delete Bid</button>
-          <button onClick={()=> this.selectWinningBid(bidSum.bid_id)}>Accept Bid</button>
-          </div>
-        )
+
+  businessFetch = () => {
+    let allBusinesses = this.props.allBiz
+    console.log("Allbiz at the Seller profile level", allBusinesses)
+    let userInfo = this.props.profileData.activeUser.seller
+    let ownedBusinesses = allBusinesses.filter(biz => biz.seller_id === userInfo.id)
+    console.log("Owned busiensses", ownedBusinesses)
+    return ownedBusinesses.map((biz) => {
+      return biz.bids.map(bid => {
+        if(bid.winning_bid){
+          return(
+            <div>
+            <h4>Business Name: {biz.name}</h4>
+            <h4>Bid Price: ${bid.bid_price}</h4>
+            <h4>Cash Consideration: {bid.cash_consid}%</h4>
+            <h4>Closing Timeline: {(bid.closing_timeline)} days</h4>
+            <h4>Winning Bid: {(bid.winning_bid) ? <h4>Yes</h4>: <h4>No</h4>}</h4>
+            </div>
+          )
+        } else {
+          return(
+            <div>
+            <h4>Business Name: {biz.name}</h4>
+            <h4>Bid Price: ${bid.bid_price}</h4>
+            <h4>Cash Consideration: {bid.cash_consid}%</h4>
+            <h4>Closing Timeline: {(bid.closing_timeline)} days</h4>
+            <h4>Winning Bid: {(bid.winning_bid) ? <h4>Yes</h4>: <h4>No</h4>}</h4>
+            <button onClick={()=> this.localDeleteBidHandler(bid.id)}>Delete Bid</button>
+            <button onClick={()=> this.selectWinningBid(bid.id)}>Accept Bid</button>
+            </div>)
+        }
       })
-  };
+      })
+    }
+  
 
   localDeleteBidHandler = (bidID) =>{
     let options ={
@@ -114,14 +132,16 @@ class SellerProfile extends Component {
       .then((bid) => {
         console.log("this is the bidID", bidID)
         this.props.removeBidSeller(bidID)
+        let updatedBids = this.props.allBiz.filter(biz => biz.bids.id !== bidID)
         this.setState(()=>({
-          bids: this.state.bids.filter(bids => bids.id !== bidID)
+          bids: updatedBids
         }))
-        // this.history.push("/marketplace")
+        this.props.history.push("/marketplace")
       });
   }
 
   selectWinningBid = (bidID) => {
+    console.log("This is the txn bid id", bidID)
     let options ={
       method: "PATCH",
       headers:{
@@ -138,37 +158,14 @@ class SellerProfile extends Component {
         let replaceBid = this.state.bids.find(bid => bid.id === bidID)
         replaceBid = bid
         this.setState(()=>({
-          txns: [...this.state.txns, bid]
-        }),()=> console.log(this.state.txns))
-        
-        // this.history.push("/marketplace")
+          txns: [...this.state.txns, bid],
+          bids: this.state.bids.pop(bid)
+        }),()=> console.log(this.state.txns, this.state.bids))
+        this.props.history.push("/marketplace")
       });
   };
 
-  renderTransactionSummary = () => {
-    let businesses = this.state.businesses
-    let txn = this.state.txns
-    let newArray = []
-    for(let i=0; i<txn.length; i++){
-      if (txn.business_id === businesses.id){
-        let txnSum = {
-          name:businesses[i].name,
-          price: txn[i].bid_price,
-          cash_consid: txn[i].cash_consid*100,
-        };
-        newArray.push(txnSum)
-    }
-    console.log("This is the transaction array", newArray)
-  }
-    return newArray.map((txnSum) =>{
-        return(
-          <div>
-          <h4>Business Name: {txnSum.name}</h4>
-          <h4>Bid Price: ${txnSum.price}</h4>
-          <h4>Cash Consideration: {txnSum.cash_consid}%</h4>
-          </div>)
-          })
-          }
+
 
   render() {
     return (
@@ -181,12 +178,10 @@ class SellerProfile extends Component {
         <p>My Businesses</p>
         <p>{this.renderBusinesses()}</p>
         <p>My Bids</p>
-        <p>{this.renderBidSummary()}</p>
-        <p>Transactions Summary</p>
-        <p>{this.renderTransactionSummary()}</p>
+        <p>{this.businessFetch()}</p>
       </div>
     );
   }
 }
 
-export default SellerProfile;
+export default withRouter(SellerProfile);
