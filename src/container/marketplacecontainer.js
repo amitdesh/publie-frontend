@@ -17,25 +17,9 @@ class MarketplaceContainer extends Component {
     }))
   }
 
-  componentDidMount(){
-    const options = {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        accepts: "application/json",
-        Authorization: `Bearer ${localStorage.token}`,
-      },
-    };
-    fetch("http://localhost:3000/businesses", options)
-      .then((resp) => resp.json())
-      .then((businesses) => {
-        console.log("businesses from db", businesses);
-        this.props.setBusinesses(businesses)
-      });
-  }
-
   renderBusinessTiles = () => {
     let businesses = this.props.allData.businesses
+    console.log("businesses in marketplace", businesses)
     let criteria = this.state.searchCrit.toLowerCase()
     let searchWords = this.state.searchTerm.toLowerCase()
     let filteredBiz = businesses.filter((biz) => biz[criteria].toLowerCase().includes(searchWords))     

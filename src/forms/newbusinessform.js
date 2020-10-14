@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {withRouter} from "react-router-dom"
 
 class NewBusinessForm extends Component {
   state = {
@@ -37,7 +38,7 @@ class NewBusinessForm extends Component {
         Authorization: `Bearer ${localStorage.token}`,
       },
       body: JSON.stringify({
-        seller_id: this.props.profileData.id,
+        seller_id: this.props.profileData.activeUser.seller.id,
         name:this.state.name,
         location:this.state.location,
         industry:this.state.industry,
@@ -49,8 +50,10 @@ class NewBusinessForm extends Component {
         })};
     fetch("http://localhost:3000/businesses", options)
       .then((resp) => resp.json())
-      .then((bid) => {
-        console.log(bid);
+      .then((biz) => {
+        console.log(biz);
+        this.props.addBiz(biz)
+        this.props.history.push("/marketplace")
       });
   }
 
@@ -139,4 +142,4 @@ class NewBusinessForm extends Component {
   }
 }
 
-export default NewBusinessForm;
+export default withRouter(NewBusinessForm);

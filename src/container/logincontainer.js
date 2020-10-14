@@ -33,8 +33,8 @@ class LoginContainer extends Component {
       .then((resp) => resp.json())
       .then((user) => {
         console.log(user)
-        this.props.setActiveUser(user, userType);
         localStorage.setItem("token", user.jwt);
+        this.props.setActiveUser(user, userType);
         this.props.history.push("/marketplace");
       });
   };

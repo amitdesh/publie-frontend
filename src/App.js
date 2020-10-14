@@ -13,14 +13,75 @@ class App extends React.Component {
     activeUser: null,
     userType: "",
     bids: [],
-    businesses: []
+    businesses: [],
+    txns: []
   };
+
+  renderInfo = () => {
+    this.getBusinesses()
+    this.getBids()
+    this.getTransactions()
+  }
+
+  getBusinesses = () =>{
+    const options = {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        accepts: "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    };
+    fetch("http://localhost:3000/businesses", options)
+      .then((resp) => resp.json())
+      .then((businesses) => {
+        this.setState(()=>({
+          businesses: businesses
+        }))
+      });
+  }
+
+  getBids = () =>{
+    const options = {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        accepts: "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    };
+    fetch("http://localhost:3000/bids", options)
+      .then((resp) => resp.json())
+      .then((bids) => {
+        this.setState(()=>({
+          bids: bids
+        }))
+      });
+  }
+
+  getTransactions = () =>{
+    const options = {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        accepts: "application/json",
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    };
+    fetch("http://localhost:3000/transactions", options)
+      .then((resp) => resp.json())
+      .then((txns) => {
+        this.setState(()=>({
+          txns: txns
+        }))
+      });
+  }
 
   setActiveUser = (profileCreds, profileType) => {
     this.setState(() => ({
       activeUser: profileCreds,
       userType: profileType,
-    }));
+    }),()=> this.renderInfo());
   };
 
   setBusinesses = (businesses) =>{
@@ -34,7 +95,6 @@ class App extends React.Component {
       bids: bids
     }));
   }
-
 
   addBids = (bidInfo, businessInfo) => {
     this.setState(()=>({
@@ -55,6 +115,12 @@ class App extends React.Component {
     }))
   }
 
+  addBiz = (biz) =>{
+    this.setState(()=>({
+      businesses: [...this.state.businesses, biz]
+    }))
+  }
+
   removeBiz = (bizID) =>{
     this.setState(()=>({
       bids: this.state.bids.filter(bid => bid.business_id !== bizID),
@@ -62,6 +128,11 @@ class App extends React.Component {
     }))
   }
 
+  addTxn = (txn) =>{
+    this.setState(()=>({
+      txns: [...this.state.txns, txn]
+    }))
+  }
 
   render() {
     return (
@@ -107,6 +178,8 @@ class App extends React.Component {
                 removeBiz={this.removeBiz}
                 setBids={this.setBids}
                 setBusinesses={this.setBusinesses}
+                addBiz={this.addBiz}
+                addTxn={this.addTxn}
               />
             )}
           />

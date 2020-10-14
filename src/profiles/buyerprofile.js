@@ -23,7 +23,7 @@ class BuyerProfile extends Component {
     this.setState(()=>({
       bids: this.props.profileData.bids.filter(bid => bid.buyer_id === userID),
       businesses: assocBusinesses,
-      txns: this.props.profileData.bids.filter(bid => bid.winning_bid && bid.buyer_id === userID)
+      txns: this.props.profileData.txns.filter(txn => txn.buyer_id === userID)
     }))
   }
 
@@ -68,22 +68,25 @@ class BuyerProfile extends Component {
   }
 
   renderBidSummary = () => {
-    if(this.state.bids.length >0){
-      return this.state.bids.map(bid => {
-        return(
-          <div>
+    let txns = this.state.txns
+    let bids = this.state.bids
+      if(bids.length >0){
+    for (let i=0; i<txns.length; i++){
+      return bids.map(bid => 
+      {if (txns[i].bid_id !== bid.id){
+          return(
+            <div>
           <h4>Business Name: {bid.business.name}</h4>
           <h4>Bid Price: ${bid.bid_price}</h4>
           <h4>Cash Consideration: {bid.cash_consid *100}%</h4>
           {(bid.winning_bid) ? <span></span>:
-          <button onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</button>}
-          )
+          <button onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</button>} 
           </div>
         )
+          }
       })
-    } else{
-      return <h4>You have no active bids on the market</h4>
     }
+    } 
   };
 
   localDeleteBidHandler = (bidID, bizID) =>{
@@ -107,13 +110,14 @@ class BuyerProfile extends Component {
 
 
   renderTransactionSummary = () => {
+    console.log(this.state.txns)
     return this.state.txns.map(txn => {
       console.log(txn)
       return(
         <div>
         <h4>Business Name: {txn.business.name}</h4>
-        <h4>txn Price: ${txn.bid_price}</h4>
-        <h4>Cash Consideration: {txn.cash_consid *100}%</h4>
+        <h4>Final Price: ${txn.bid.bid_price}</h4>
+        <h4>Cash Consideration: {txn.bid.cash_consid *100}%</h4>
         </div>
       )
     })
@@ -125,9 +129,9 @@ class BuyerProfile extends Component {
       <div>
         <p>{this.renderBuyerProfile()}</p>
         <h3>Active Bids</h3>
-        <p>{(this.state.bids.length > 0) ? this.renderBidSummary(): <h4>You currently have no active bids on the market.</h4>}</p>
+        <p>{(this.state.bids.length >0) ? this.renderBidSummary() : <h5>No current active bids on the market.</h5>}</p>
         <h3>Completed Transactions</h3>
-        <p>{this.renderTransactionSummary()}</p>
+        <p>{(this.state.txns.length > 0) ? this.renderTransactionSummary(): <h4>You currently have currently no transactions completed.</h4>}</p>
       </div>
     );
   }
