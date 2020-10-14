@@ -6,8 +6,16 @@ import BusinessTile from "../marketplace/businesstiles";
 
 class MarketplaceContainer extends Component {
   state = {
-    businessTiles: [],
+    searchTerm: "",
+    searchCrit: "name"
   };
+
+  changeHandler=(e) =>{
+    e.persist()
+    this.setState(()=>({
+      [e.target.name]: e.target.value
+    }))
+  }
 
   componentDidMount(){
     const options = {
@@ -21,17 +29,18 @@ class MarketplaceContainer extends Component {
     fetch("http://localhost:3000/businesses", options)
       .then((resp) => resp.json())
       .then((businesses) => {
-        console.log(businesses);
-        this.setState(() => ({
-          businessTiles: businesses,
-        }));
+        console.log("businesses from db", businesses);
+        this.props.setBusinesses(businesses)
       });
   }
 
   renderBusinessTiles = () => {
-    console.log(this.state.businessTiles);
-    return this.state.businessTiles.map((business) => {
-      return <BusinessTile key={business.id} business={business} profileData={this.props.userData} addBid={this.props.addBid} />;
+    let businesses = this.props.allData.businesses
+    let criteria = this.state.searchCrit.toLowerCase()
+    let searchWords = this.state.searchTerm.toLowerCase()
+    let filteredBiz = businesses.filter((biz) => biz[criteria].toLowerCase().includes(searchWords))     
+    return filteredBiz.map((business) => {
+      return <BusinessTile key={business.id} business={business} profileData={this.props.allData} addBid={this.props.addBid} />;
     });
   };
 
@@ -39,21 +48,8 @@ class MarketplaceContainer extends Component {
   if (localStorage.token === ""){return <h1>Please log-in to see this page</h1>} else { 
     return (
       <div>
-        <SearchForm />
+        <SearchForm searchHandler={this.changeHandler} searchTerm={this.state.searchTerm} searchCrit={this.state.searchCrit} />
         <h1>{this.renderBusinessTiles()}</h1>
-        {/* <Switch>
-          <Route
-            path="/marketplace/:id"
-            render={({ match }) => {
-              let id = parseInt(match.params.id, 10);
-              let foundBusiness = this.state.businessTiles.find(
-                (business) => business.id === id
-              );
-              console.log("Found business:", foundBusiness);
-              return <BusinessProfile business={foundBusiness} profileData={this.props.userData} />;
-            }}
-          />
-        </Switch> */}
       </div>
     );
   }

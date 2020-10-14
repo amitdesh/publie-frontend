@@ -5,6 +5,8 @@ import LoginContainer from "./container/logincontainer";
 import SignupContainer from "./container/signupcontainer";
 import MarketplaceContainer from "./container/marketplacecontainer";
 import ProfileContainer from "./container/profilecontainer";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Button } from "react-bootstrap";
 
 class App extends React.Component {
   state = {
@@ -14,14 +16,25 @@ class App extends React.Component {
     businesses: []
   };
 
-  setActiveUser = (profileCreds, profileType, userBids, userBusinesses) => {
+  setActiveUser = (profileCreds, profileType) => {
     this.setState(() => ({
       activeUser: profileCreds,
       userType: profileType,
-      bids: userBids,
-      businesses: userBusinesses,
     }));
   };
+
+  setBusinesses = (businesses) =>{
+    this.setState(() => ({
+      businesses: businesses
+    }));
+  }
+
+  setBids = (bids) => {
+    this.setState(() => ({
+      bids: bids
+    }));
+  }
+
 
   addBids = (bidInfo, businessInfo) => {
     this.setState(()=>({
@@ -30,10 +43,9 @@ class App extends React.Component {
     }), console.log(this.state.bids))
   }
 
-  removeBid = (bidID, bizID) =>{
+  removeBid = (bidID) =>{
     this.setState(()=>({
       bids: this.state.bids.filter(bids => bids.id !== bidID),
-      businesses: this.state.businesses.filter(biz => biz.id !== bizID),
     }))
   }
 
@@ -53,24 +65,27 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Welcome to the DealMaker Marketplace</h1>
+      <div className="home">
+      <span id="nav-bar">
+        <h1 id="website-title">Welcome to the DealMaker Marketplace</h1>
+      <span className="container">
         <NavLink to="/login">
-          <button>Log-in</button>
+          <Button variant="secondary" className="nav-button">Log-in</Button>
           <br></br>
         </NavLink>
         <NavLink to="/signup">
-          <button>Sign-up</button>
+          <Button variant="secondary" className="nav-button">Sign-up</Button>
           <br></br>
         </NavLink>
         <NavLink to="/marketplace">
-          <button>Marketplace</button>
+          <Button variant="secondary" className="nav-button">Marketplace</Button>
           <br></br>
         </NavLink>
         <NavLink to="/profile">
-          <button>My Profile</button>
+          <Button variant="secondary" className="nav-button">My Profile</Button>
           <br></br>
         </NavLink>
+      </span>
         <Switch>
           <Route
             path="/login"
@@ -86,11 +101,12 @@ class App extends React.Component {
             path="/profile"
             render={() => (
               <ProfileContainer
-                userData={this.state}
-                setActiveUser={this.setActiveUser}
+                allData={this.state}
                 removeBid={this.removeBid}
                 removeBidSeller={this.removeBidSeller}
                 removeBiz={this.removeBiz}
+                setBids={this.setBids}
+                setBusinesses={this.setBusinesses}
               />
             )}
           />
@@ -98,13 +114,14 @@ class App extends React.Component {
             path="/marketplace"
             render={() => (
               <MarketplaceContainer
-                userData={this.state}
-                setActiveUser={this.setActiveUser}
+                allData={this.state}
+                setBusinesses={this.setBusinesses}
                 addBid={this.addBids}
               />
             )}
           />
         </Switch>
+      </span>
       </div>
     );
   }

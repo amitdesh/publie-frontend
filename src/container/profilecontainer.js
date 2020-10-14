@@ -4,10 +4,6 @@ import SellerProfile from "../profiles/sellerprofile";
 
 class ProfileContainer extends Component {
   
-  state = {
-    allBiz: []
-  }
-  
   componentDidMount(){
     const options = {
       method: "GET",
@@ -17,30 +13,42 @@ class ProfileContainer extends Component {
         Authorization: `Bearer ${localStorage.token}`,
       },
     };
-    fetch("http://localhost:3000/businesses", options)
+    fetch("http://localhost:3000/bids", options)
       .then((resp) => resp.json())
-      .then((businesses) => {
-        console.log("Fetched GET Businesses", businesses);
-        this.setState(() => ({
-          allBiz: businesses,
-        }));
+      .then((bids) => {
+        console.log(bids);
+        this.props.setBids(bids)
       });
+
+      const options2 = {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          accepts: "application/json",
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      };
+      fetch("http://localhost:3000/businesses", options2)
+        .then((resp) => resp.json())
+        .then((businesses) => {
+          console.log("businesses from db", businesses);
+          this.props.setBusinesses(businesses)
+        });
   }
   
   
    
   render() {
-    console.log(this.state.allBiz);
     if (localStorage.token === ""){
       return <h1>Please log-in to see this page</h1>
     } else {
-      if (this.props.userData.userType === "buyer") {
+      if (this.props.allData.userType === "buyer") {
         return (
-          <BuyerProfile profileData={this.props.userData} removeBid={this.props.removeBid} />
+          <BuyerProfile profileData={this.props.allData} removeBid={this.props.removeBid} />
         );
       } else {
         return (
-          <SellerProfile profileData={this.props.userData} removeBidSeller={this.props.removeBidSeller} removeBiz={this.props.removeBiz} allBiz={this.state.allBiz} />
+          <SellerProfile profileData={this.props.allData} removeBidSeller={this.props.removeBidSeller} removeBiz={this.props.removeBiz} />
         );
       }
     }

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { NavLink, Route, Switch, withRouter } from "react-router-dom";
 import BuyerSignup from "../forms/sellersignup";
 import SellerSignup from "../forms/buyersignup";
+import {Form, Button} from "react-bootstrap"
+import "./signupcont.css"
 
 class SignupContainer extends Component {
   state = {
@@ -62,19 +64,21 @@ class SignupContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="form-div">
+      <div className= "signup-container">
         <NavLink to="/signup/buyer">
-          <button onClick={() => this.setProfileType("buyer")}>
+          <Button className="signup-btns" variant="outline-primary" onClick={() => this.setProfileType("buyer")}>
             Sign-up as an Investor/Buyer
-          </button>
+          </Button>
           <br></br>
         </NavLink>
         <NavLink to="/signup/seller">
-          <button onClick={() => this.setProfileType("seller")}>
+          <Button className="signup-btns" variant="outline-primary" onClick={() => this.setProfileType("seller")}>
             Sign-up as a Business Seller
-          </button>
+          </Button>
           <br></br>
         </NavLink>
+      </div>
         <Switch>
           <Route
             path="/signup/seller"

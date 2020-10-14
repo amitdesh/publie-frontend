@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {Form, Button} from "react-bootstrap"
+import "./signupform.css"
 
 class SellerSignup extends Component {
   state = {
@@ -27,46 +29,51 @@ class SellerSignup extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.localSubmitHandler}>
-          <label for="email_address">Email Address</label>
-          <input
+      <span className="signup-form">
+        <Form onSubmit={this.localSubmitHandler}>
+        <Form.Group>
+          <Form.Label>Username (as Email Address)</Form.Label>
+          <Form.Control
             type="text"
             name="email_address"
             value={this.state.email_address}
             placeholder="Enter username"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="password">Password</label>
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             type="text"
             name="password"
             value={this.state.password}
             placeholder="Enter password"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="first_name">First Name</label>
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
             type="text"
             name="first_name"
             value={this.state.first_name}
             placeholder="Enter first name"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="last_name">Last Name</label>
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
             type="text"
             name="last_name"
             value={this.state.last_name}
             placeholder="Enter last name"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="prof_pic">Profile Picture URL</label>
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Profile Picture URL</Form.Label>
+          <Form.Control
             type="text"
             name="prof_pic"
             value={this.state.prof_pic}
@@ -74,9 +81,10 @@ class SellerSignup extends Component {
             onChange={this.changeHandler}
           />
           <br></br>
-          <button type="submit">Create New Seller Profile</button>
-        </form>
-      </div>
+        </Form.Group>
+          <Button variant="primary" type="submit">Create New Seller Profile</Button>
+        </Form>
+      </span>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import LoginForm from "../forms/loginform";
+import "./logincont.css"
 
 class LoginContainer extends Component {
   state = {
@@ -32,16 +33,16 @@ class LoginContainer extends Component {
       .then((resp) => resp.json())
       .then((user) => {
         console.log(user)
-        this.props.setActiveUser(user, userType, user[userType].bids, user[userType].businesses);
+        this.props.setActiveUser(user, userType);
         localStorage.setItem("token", user.jwt);
-        this.props.history.push("/profile");
+        this.props.history.push("/marketplace");
       });
   };
 
   render() {
     return (
-      <div>
-        <h2>Existing User Login</h2>
+      <div className="form-div">
+        <h2 className="test">User Log-in</h2>
         <LoginForm
           submitHandler={this.submitHandler}
           setProfileType={this.setProfileType}
