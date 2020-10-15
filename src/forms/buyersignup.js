@@ -11,6 +11,7 @@ class BuyerSignup extends Component {
     aum: "",
     prof_pic: "",
     industry: "",
+    profile_picture: ""
   };
 
   changeHandler = (e) => {
@@ -89,6 +90,14 @@ class BuyerSignup extends Component {
             name="prof_pic"
             value={this.state.prof_pic}
             placeholder="Enter profile picture image address"
+            onChange={this.changeHandler}
+          />
+          <Form.Label for="prof_pic">Profile Picture</Form.Label>
+          <Form.Control
+            type="file"
+            name="profile_picture"
+            value={this.state.profile_picture}
+            placeholder="Upload profile picture"
             onChange={this.changeHandler}
           />
           <Form.Label for="industry">Primary Industry of Interest</Form.Label>

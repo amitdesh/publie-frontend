@@ -35,7 +35,7 @@ class LoginContainer extends Component {
         console.log(user)
         localStorage.setItem("token", user.jwt);
         this.props.setActiveUser(user, userType);
-        this.props.history.push("/marketplace");
+        this.props.history.push("/profile");
       });
   };
 

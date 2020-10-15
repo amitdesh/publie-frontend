@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Form, Button} from "react-bootstrap"
 import "./signupform.css"
+import Dropzone from 'react-dropzone'
 
 class SellerSignup extends Component {
   state = {
@@ -9,6 +10,7 @@ class SellerSignup extends Component {
     first_name: "",
     last_name: "",
     prof_pic: "",
+    profile_picture: null
   };
 
   changeHandler = (e) => {
@@ -26,6 +28,12 @@ class SellerSignup extends Component {
       [e.target.name]: "",
     }));
   };
+
+  onDrop = (acceptedFiles) =>{
+    this.setState({
+      profile_picture: acceptedFiles[0]
+    })
+  }
 
   render() {
     return (
@@ -81,6 +89,24 @@ class SellerSignup extends Component {
             onChange={this.changeHandler}
           />
           <br></br>
+          {/* <Form.Label>Profile Picture</Form.Label>
+          <Form.Control
+            type="file"
+            name="profile_picture"
+            value={this.state.profile_picture}
+            placeholder="Upload profile picture"
+            onChange={this.changeHandler}
+          />
+          <br></br> */}
+          <Dropzone onDrop={this.onDrop} accept="image/png, image/gif,image/jpg,image/jpeg" >
+            {({getRootProps, getInputProps}) => (
+              <div {...getRootProps()}>
+									<input {...getInputProps()} />
+								{this.state.profile_picture !== null ? "File Uploaded" :
+								"Click me to upload a file!" }
+              </div>
+            )}
+        </Dropzone>
         </Form.Group>
           <Button variant="primary" type="submit">Create New Seller Profile</Button>
         </Form>

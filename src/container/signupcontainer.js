@@ -38,26 +38,30 @@ class SignupContainer extends Component {
     fetch("http://localhost:3000/buyers", options)
       .then((resp) => resp.json())
       .then((user) => {
-        this.props.setActiveUser(user, this.state.profileType);
         localStorage.setItem("token", user.jwt);
+        this.props.setActiveUser(user, this.state.profileType);
         this.props.history.push("/profile");
   })};
 
   sellerSignupRequest = (signupInfo) => {
+    let sellerSignupInfo = new FormData()
+    sellerSignupInfo.append("seller[email_address]", signupInfo.email_address)
+    sellerSignupInfo.append("seller[password]", signupInfo.password)
+    sellerSignupInfo.append("seller[first_name]", signupInfo.first_name)
+    sellerSignupInfo.append("seller[last_name]", signupInfo.last_name)
+    sellerSignupInfo.append("seller[prof_pic]", signupInfo.prof_pic)
+    sellerSignupInfo.append("seller[profile_picture]", signupInfo.profile_picture)
     let options = {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accepts: "application/json",
-      },
-      body: JSON.stringify({ seller: signupInfo }),
-    };
-    console.log(this.state.profileType);
+      body: sellerSignupInfo
+    }
     fetch("http://localhost:3000/sellers", options)
       .then((resp) => resp.json())
       .then((user) => {
-        this.props.setActiveUser(user, this.state.profileType);
+        console.log("User before loading to state", user)
         localStorage.setItem("token", user.jwt);
+        this.props.setActiveUser(user, this.state.profileType);
+        console.log("User after loading to state", user)
         this.props.history.push("/profile");
   })
 };
