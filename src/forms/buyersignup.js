@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
+import Dropzone from 'react-dropzone'
 
 class BuyerSignup extends Component {
   state = {
@@ -11,7 +12,7 @@ class BuyerSignup extends Component {
     aum: "",
     prof_pic: "",
     industry: "",
-    profile_picture: ""
+    profile_pic: null
   };
 
   changeHandler = (e) => {
@@ -29,6 +30,12 @@ class BuyerSignup extends Component {
       [e.target.name]: "",
     }));
   };
+
+  onDrop = (acceptedFiles) =>{
+    this.setState({
+      profile_pic: acceptedFiles[0]
+    })
+  }
 
   render() {
     return (
@@ -92,14 +99,17 @@ class BuyerSignup extends Component {
             placeholder="Enter profile picture image address"
             onChange={this.changeHandler}
           />
-          <Form.Label for="prof_pic">Profile Picture</Form.Label>
-          <Form.Control
-            type="file"
-            name="profile_picture"
-            value={this.state.profile_picture}
-            placeholder="Upload profile picture"
-            onChange={this.changeHandler}
-          />
+          <br></br>
+          <Dropzone onDrop={this.onDrop} accept="image/png, image/gif,image/jpg,image/jpeg" >
+            {({getRootProps, getInputProps}) => (
+              <div {...getRootProps()}>
+									<input {...getInputProps()} />
+								{this.state.profile_pic !== null ? "Profile Picture Uploaded" :
+								"Click to here upload Profile Picture" }
+              </div>
+            )}
+        </Dropzone>
+        <br></br>
           <Form.Label for="industry">Primary Industry of Interest</Form.Label>
           <Form.Control as="select" name="industry" onChange={this.changeHandler}>
             <option value= "">Choose One:</option>

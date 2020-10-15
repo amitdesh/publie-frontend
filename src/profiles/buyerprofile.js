@@ -33,6 +33,7 @@ class BuyerProfile extends Component {
     return (
       <div>
         <img src={buyerProfile.prof_pic} alt="" />
+        <img className="background-image" src={this.props.profileData.activeUser.picture} alt="background" />
         <h3>
           Name: {buyerProfile.first_name}{" "}
           {buyerProfile.last_name}

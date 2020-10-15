@@ -89,21 +89,12 @@ class SellerSignup extends Component {
             onChange={this.changeHandler}
           />
           <br></br>
-          {/* <Form.Label>Profile Picture</Form.Label>
-          <Form.Control
-            type="file"
-            name="profile_picture"
-            value={this.state.profile_picture}
-            placeholder="Upload profile picture"
-            onChange={this.changeHandler}
-          />
-          <br></br> */}
           <Dropzone onDrop={this.onDrop} accept="image/png, image/gif,image/jpg,image/jpeg" >
             {({getRootProps, getInputProps}) => (
               <div {...getRootProps()}>
 									<input {...getInputProps()} />
-								{this.state.profile_picture !== null ? "File Uploaded" :
-								"Click me to upload a file!" }
+								{this.state.profile_picture !== null ? "Profile Picture Uploaded" :
+								"Click here to upload Profile Picture" }
               </div>
             )}
         </Dropzone>

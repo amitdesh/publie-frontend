@@ -26,13 +26,19 @@ class SignupContainer extends Component {
   };
 
   buyerSignupRequest = (signupInfo) => {
+    let buyerSignupInfo = new FormData()
+    buyerSignupInfo.append("buyer[email_address]", signupInfo.email_address)
+    buyerSignupInfo.append("buyer[password]", signupInfo.password)
+    buyerSignupInfo.append("buyer[first_name]", signupInfo.first_name)
+    buyerSignupInfo.append("buyer[last_name]", signupInfo.last_name)
+    buyerSignupInfo.append("buyer[prof_pic]", signupInfo.prof_pic)
+    buyerSignupInfo.append("buyer[profile_pic]", signupInfo.profile_pic)
+    buyerSignupInfo.append("buyer[aum]", signupInfo.aum)
+    buyerSignupInfo.append("buyer[industry]", signupInfo.industry)
+    buyerSignupInfo.append("buyer[company_name]", signupInfo.company_name)
     let options = {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accepts: "application/json",
-      },
-      body: JSON.stringify({ buyer: signupInfo }),
+      body: buyerSignupInfo,
     };
     console.log(this.state.profileType);
     fetch("http://localhost:3000/buyers", options)
