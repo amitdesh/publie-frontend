@@ -96,16 +96,20 @@ class SellerProfile extends Component {
   
 
   renderBidSummary = () => {
-    let bids = this.props.profileData.bids
+
+    console.log("buyer state", this.state)
     let userID = this.props.profileData.activeUser.seller.id
-    let assocBids = []
-    if(bids.length > 0){
-    for (let i=0; i<bids.length; i++){
-        if (bids[i].business.seller_id === userID){
-          assocBids.push(bids[i])
-        }}}
-        // let filteredBids = assocBids.filter(bids => bids)
-    return assocBids.map(bid => {
+    let filteredTxns = this.props.profileData.txns.filter(txn => txn.seller_id === userID)
+    let filteredBids = this.props.profileData.bids.filter(bid => bid.business.seller_id === userID)
+    let txnIDs = filteredTxns.map(txn => txn.bid_id)
+    let bidIDs = filteredBids.map(bid => bid.id)
+    let renderIDs = bidIDs.filter(bidId => !txnIDs.includes(bidId))
+    let renderBids = []
+    for (let i = 0; i< renderIDs.length; i++){
+      let x = filteredBids.find(el => el ===renderIDs[i])
+      renderBids.push(x)
+    }
+    return renderBids.map(bid => {
       return(
         <div>
         <h4>Business Name: {bid.business.name}</h4>
