@@ -99,8 +99,7 @@ class App extends React.Component {
 
   addBids = (bidInfo, businessInfo) => {
     this.setState(()=>({
-      bids: [...this.state.bids, bidInfo],
-      businesses: [...this.state.businesses, businessInfo]
+      bids: [...this.state.bids, bidInfo]
     }), console.log(this.state.bids))
   }
 
@@ -119,7 +118,7 @@ class App extends React.Component {
   addBiz = (biz) =>{
     this.setState(()=>({
       businesses: [...this.state.businesses, biz]
-    }))
+    }),()=>console.log("new app js state after biz has been added", this.state.businesses))
   }
 
   removeBiz = (bizID) =>{

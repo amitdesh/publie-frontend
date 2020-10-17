@@ -10,20 +10,20 @@ class BuyerProfile extends Component {
   }
   
   componentDidMount(){
-    let userID = this.props.profileData.activeUser.buyer.id
-    let businesses = this.props.profileData.businesses
-    let assocBusinesses = []
-    for (let i=0; i<businesses.length; i++){
-      for (let j=0; j<businesses[i].bids.length; j++){
-        if (businesses[i].bids[j].buyer_id === userID){
-          assocBusinesses.push(businesses[i])
-        }
-      }
-    }
+    // let userID = this.props.profileData.activeUser.buyer.id
+    // let businesses = this.props.profileData.businesses
+    // let assocBusinesses = []
+    // for (let i=0; i<businesses.length; i++){
+    //   for (let j=0; j<businesses[i].bids.length; j++){
+    //     if (businesses[i].bids[j].buyer_id === userID){
+    //       assocBusinesses.push(businesses[i])
+    //     }
+    //   }
+    // }
     this.setState(()=>({
-      bids: this.props.profileData.bids.filter(bid => bid.buyer_id === userID),
-      businesses: assocBusinesses,
-      txns: this.props.profileData.txns.filter(txn => txn.buyer_id === userID)
+      bids: this.props.profileData.bids,
+      businesses: this.props.profileData.businesses,
+      txns: this.props.profileData.txns
     }))
   }
 
@@ -69,12 +69,18 @@ class BuyerProfile extends Component {
   }
 
   renderBidSummary = () => {
-    let txns = this.state.txns
-    let bids = this.state.bids
-      if(bids.length >0){
-    for (let i=0; i<txns.length; i++){
-      return bids.map(bid => 
-      {if (txns[i].bid_id !== bid.id){
+    console.log("buyer state", this.state)
+    let userID = this.props.profileData.activeUser.buyer.id
+    let filteredTxns = this.props.profileData.txns.filter(txn => txn.buyer_id === userID)
+    let filteredBids = this.props.profileData.bids.filter(bid => bid.buyer_id === userID)
+    console.log("filtered bids", filteredBids)
+    let renderedBids =[]
+    for (let i=0; i<filteredBids.length; i++){
+      for (let j=0; j<filteredTxns.length; j++){
+        if (filteredBids[i].id !== filteredTxns[j].bid_id){
+          renderedBids.push(filteredBids[i])
+        }}}
+        return renderedBids.map(bid => {
           return(
             <div>
           <h4>Business Name: {bid.business.name}</h4>
@@ -84,10 +90,7 @@ class BuyerProfile extends Component {
           <button onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</button>} 
           </div>
         )
-          }
-      })
-    }
-    } 
+        })
   };
 
   localDeleteBidHandler = (bidID, bizID) =>{
@@ -111,9 +114,9 @@ class BuyerProfile extends Component {
 
 
   renderTransactionSummary = () => {
-    console.log(this.state.txns)
-    return this.state.txns.map(txn => {
-      console.log(txn)
+    let userID = this.props.profileData.activeUser.buyer.id
+    let filteredTxns = this.props.profileData.txns.filter(txn => txn.buyer_id === userID)
+    return filteredTxns.map(txn => {
       return(
         <div>
         <h4>Business Name: {txn.business.name}</h4>

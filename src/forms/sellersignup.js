@@ -33,6 +33,7 @@ class SellerSignup extends Component {
     this.setState({
       profile_picture: acceptedFiles[0]
     })
+    console.log("Profile picture in state",this.state.profile_picture,"accepted files", acceptedFiles)
   }
 
   render() {
@@ -89,7 +90,7 @@ class SellerSignup extends Component {
             onChange={this.changeHandler}
           />
           <br></br>
-          <Dropzone onDrop={this.onDrop} accept="image/png, image/gif,image/jpg,image/jpeg" >
+          <Dropzone onDrop={this.onDrop} multiple accept="image/png, image/gif,image/jpg,image/jpeg" >
             {({getRootProps, getInputProps}) => (
               <div {...getRootProps()}>
 									<input {...getInputProps()} />

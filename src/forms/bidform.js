@@ -47,9 +47,9 @@ class BidForm extends Component {
     fetch("http://localhost:3000/bids", options)
       .then((resp) => resp.json())
       .then((bid) => {
-        console.log(bid)
+        console.log("submitted bid", bid)
         this.props.addBid(bid.bid, this.props.business)
-        // this.history.push("/marketplace")
+        this.props.history.push("/profile")
       });
   }
 

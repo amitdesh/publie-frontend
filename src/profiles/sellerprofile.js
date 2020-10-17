@@ -11,25 +11,11 @@ class SellerProfile extends Component {
   }
 
   componentDidMount(){
-    let userID = this.props.profileData.activeUser.seller.id
-    let bids = this.props.profileData.bids
-    console.log("bids", bids, "bids length", bids.length)
-    console.log("txns", this.props.profileData.txns)
-    let assocBids = []
-    if(bids.length > 0){
-    for (let i=0; i<bids.length; i++){
-        if (bids[i].business.seller_id === userID){
-          assocBids.push(bids[i])
-        } else {
-          return <h4>Currently, there are no active bids on your businesses.</h4>
-        }
-      }
-      }
     this.setState(()=>({
-      bids: assocBids,
-      businesses: this.props.profileData.businesses.filter(biz => biz.seller_id === userID),
-      txns: this.props.profileData.txns.filter(txn => txn.seller_id === userID)
-    }),()=> this.renderBidSummary())
+      bids: this.props.profileData.bids,
+      businesses: this.props.profileData.businesses,
+      txns: this.props.profileData.txns
+    }),()=> console.log("state in seller profile", this.state))
   }
 
 
@@ -71,7 +57,9 @@ class SellerProfile extends Component {
   }
 
   renderBusinesses = () =>{
-    return this.state.businesses.map(biz =>{return (
+    let userID = this.props.profileData.activeUser.seller.id
+    let filteredBusinesses = this.props.profileData.businesses.filter(biz => biz.seller_id === userID)
+    return filteredBusinesses.map(biz =>{return (
       <div>
         <h4>{biz.name}</h4>
         <button onClick={() => this.deleteBusiness(biz.id)}>Delete Business</button>
@@ -90,13 +78,13 @@ class SellerProfile extends Component {
     }
     fetch(`http://localhost:3000/businesses/${bizID}`, options)
       .then((biz) => {
-        this.props.removeBiz(bizID)
         let bids = this.state.bids
         for (let i=0; i<bids.length; i++){
           if(bids[i].business.id === bizID){
             this.localDeleteBidHandler(bids[i].business.id)
           }
         }
+        this.props.removeBiz(bizID)
         this.setState(()=>({
           businesses: this.state.businesses.filter(biz => biz.id !== bizID),
           bids: this.state.bids.filter(bid => bid.business_id !== bizID)
@@ -108,8 +96,16 @@ class SellerProfile extends Component {
   
 
   renderBidSummary = () => {
-    console.log(this.state.bids)
-    return this.state.bids.map(bid => {
+    let bids = this.props.profileData.bids
+    let userID = this.props.profileData.activeUser.seller.id
+    let assocBids = []
+    if(bids.length > 0){
+    for (let i=0; i<bids.length; i++){
+        if (bids[i].business.seller_id === userID){
+          assocBids.push(bids[i])
+        }}}
+        // let filteredBids = assocBids.filter(bids => bids)
+    return assocBids.map(bid => {
       return(
         <div>
         <h4>Business Name: {bid.business.name}</h4>
@@ -124,7 +120,7 @@ class SellerProfile extends Component {
         </div>
       )
     })
-    }
+  }
   
 
   localDeleteBidHandler = (bidID) =>{
@@ -164,16 +160,19 @@ class SellerProfile extends Component {
     .then(resp => resp.json())
       .then(txn => {
         const index = this.state.bids.indexOf(bid)
+        console.log("index of bid", index)
         this.props.addTxn(txn)
         this.setState(()=>({
           txns: [...this.state.txns, txn],
           bid: this.state.bids.splice(index, 1)
-        }),()=> console.log(this.state.bids))
+        }),()=> console.log("posted accepted bids", this.state.bids))
       });
   };
 
   renderTransactionSummary = () => {
-    return this.state.txns.map(txn => {
+    let userID = this.props.profileData.activeUser.seller.id
+    let filteredTxns = this.props.profileData.txns.filter(txn => txn.seller_id === userID)
+    return filteredTxns.map(txn => {
       console.log(txn)
       return(
         <div>
@@ -188,6 +187,7 @@ class SellerProfile extends Component {
 
 
   render() {
+    console.log("currently listed businesses", this.state.businesses)
     return (
       <div>
         <p>{this.renderSellerProfile()}</p>
@@ -196,7 +196,7 @@ class SellerProfile extends Component {
         </NavLink>
         <Route path="/profile/newbusiness" render={()=> <NewBusinessForm profileData={this.props.profileData} addBiz={this.props.addBiz}/>} />
         <p>My Businesses</p>
-        <p>{(this.state.businesses.length > 0) ? this.renderBusinesses(): <h4>You currently have no active business postings.</h4>}</p>
+        <p>{(this.state.businesses) ? this.renderBusinesses(): <h4>You currently have no active business postings.</h4>}</p>
         <p>My Bids</p>
         <p>{(this.state.bids.length >0) ? this.renderBidSummary() : <h5>No current active bids for your business(es).</h5>}</p>
         <h3>Completed Transactions</h3>
@@ -206,4 +206,4 @@ class SellerProfile extends Component {
   }
 }
 
-export default withRouter(SellerProfile);
+export default withRouter(SellerProfile)

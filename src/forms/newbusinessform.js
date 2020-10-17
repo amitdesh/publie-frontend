@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {withRouter} from "react-router-dom"
+import Dropzone from 'react-dropzone'
 
 class NewBusinessForm extends Component {
   state = {
@@ -11,6 +12,7 @@ class NewBusinessForm extends Component {
     employees: "",
     revenue: "",
     description: "",
+    biz_picture: null
   };
 
   changeHandler = (e) => {
@@ -29,29 +31,36 @@ class NewBusinessForm extends Component {
     }))
   }
 
+  onDrop = (acceptedFiles) =>{
+    this.setState({
+      biz_picture: acceptedFiles[0]
+    })
+    console.log(this.state.biz_picture)
+  }
+
   bizSubmitHandler = () =>{
+    let newBusinessFormData = new FormData()
+    newBusinessFormData.append("business[name]", this.state.name)
+    newBusinessFormData.append("business[location]", this.state.location)
+    newBusinessFormData.append("business[industry]", this.state.industry)
+    newBusinessFormData.append("business[founder_name]", this.state.founder_name)
+    newBusinessFormData.append("business[biz_type]", this.state.biz_type)
+    newBusinessFormData.append("business[employees]", this.state.employees)
+    newBusinessFormData.append("business[revenue]", this.state.revenue)
+    newBusinessFormData.append("business[description]", this.state.description)
+    newBusinessFormData.append("business[biz_picture]", this.state.biz_picture)
+    newBusinessFormData.append("business[seller_id]", this.props.profileData.activeUser.seller.id)
     const options = {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accepts: "application/json",
-        Authorization: `Bearer ${localStorage.token}`,
-      },
-      body: JSON.stringify({
-        seller_id: this.props.profileData.activeUser.seller.id,
-        name:this.state.name,
-        location:this.state.location,
-        industry:this.state.industry,
-        founder_name:this.state.founder_name,
-        biz_type:this.state.biz_type,
-        employees:this.state.employees,
-        revenue:this.state.revenue,
-        description:this.state.description
-        })};
+      // headers: {
+      //   Authorization: `Bearer ${localStorage.token}`,
+      // },
+      body: newBusinessFormData
+    }
     fetch("http://localhost:3000/businesses", options)
       .then((resp) => resp.json())
       .then((biz) => {
-        console.log(biz);
+        console.log("BizHandler return value", biz);
         this.props.addBiz(biz)
         this.props.history.push("/marketplace")
       });
@@ -135,6 +144,15 @@ class NewBusinessForm extends Component {
             onChange={this.changeHandler}
           />
           <br></br>
+          <Dropzone onDrop={this.onDrop} multiple accept="image/png, image/gif,image/jpg,image/jpeg" >
+            {({getRootProps, getInputProps}) => (
+              <div {...getRootProps()}>
+									<input {...getInputProps()} />
+								{this.state.biz_picture !== null ? "Business Pictures Uploaded" :
+								"Click here to upload pictures of the Business" }
+              </div>
+            )}
+        </Dropzone>
           <button type="submit">Create New Business Posting</button>
         </form>
       </div>
