@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import BuyerProfile from "../profiles/buyerprofile";
 import SellerProfile from "../profiles/sellerprofile";
+import "./profilecont.css"
 
 class ProfileContainer extends Component {
   
   render() {
-    if (localStorage.token === ""){
-      return <h1>Please log-in to see this page</h1>
+    if (this.props.allData.activeUser === null){
+      return (<div id="login-req">
+      <h1 id="login-req">Please log-in to see this page</h1>
+      </div>)
     } else {
       if (this.props.allData.userType === "buyer") {
         return (

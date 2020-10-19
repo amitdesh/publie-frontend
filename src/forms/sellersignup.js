@@ -33,13 +33,12 @@ class SellerSignup extends Component {
     this.setState({
       profile_picture: acceptedFiles[0]
     })
-    console.log("Profile picture in state",this.state.profile_picture,"accepted files", acceptedFiles)
   }
 
   render() {
     return (
-      <span className="signup-form">
-        <Form onSubmit={this.localSubmitHandler}>
+      <span>
+        <Form onSubmit={this.localSubmitHandler} className="signup-form">
         <Form.Group>
           <Form.Label>Username (as Email Address)</Form.Label>
           <Form.Control
@@ -53,7 +52,7 @@ class SellerSignup extends Component {
         <Form.Group>
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             name="password"
             value={this.state.password}
             placeholder="Enter password"
@@ -80,26 +79,18 @@ class SellerSignup extends Component {
             onChange={this.changeHandler}
           />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Profile Picture URL</Form.Label>
-          <Form.Control
-            type="text"
-            name="prof_pic"
-            value={this.state.prof_pic}
-            placeholder="Enter profile picture image address"
-            onChange={this.changeHandler}
-          />
-          <br></br>
+        <div className="profpic-upload">
           <Dropzone onDrop={this.onDrop} multiple accept="image/png, image/gif,image/jpg,image/jpeg" >
             {({getRootProps, getInputProps}) => (
               <div {...getRootProps()}>
 									<input {...getInputProps()} />
 								{this.state.profile_picture !== null ? "Profile Picture Uploaded" :
-								"Click here to upload Profile Picture" }
+								"Click here to upload a profile picture" }
               </div>
             )}
         </Dropzone>
-        </Form.Group>
+        </div>
+        <br></br>
           <Button variant="primary" type="submit">Create New Seller Profile</Button>
         </Form>
       </span>

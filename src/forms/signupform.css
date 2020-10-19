@@ -1,4 +1,15 @@
 .signup-form {
-    padding: 2%;
-  }
-  
+  padding: 1%;
+  border: darkblue;
+  border-width: 0.5%;
+  border-style: solid;
+  margin: 1%;
+}
+
+.profpic-upload {
+  border: darkblue;
+  border-width: 0.5%;
+  border-radius: 1%;
+  border-style: solid;
+  padding: 1%;
+}

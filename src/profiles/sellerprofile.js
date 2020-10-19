@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 import { NavLink, Route, withRouter } from "react-router-dom";
 import NewBusinessForm from "../forms/newbusinessform"
 
@@ -23,15 +24,14 @@ class SellerProfile extends Component {
     let sellerProfile = this.props.profileData.activeUser.seller
     return (
       <div>
-        <img src={sellerProfile.prof_pic} alt="" />
         <img className="background-image" src={this.props.profileData.activeUser.picture} alt="background" />
         <h3>
           Name: {sellerProfile.first_name}{" "}
           {sellerProfile.last_name}
         </h3>
         <h3>Email Address: {sellerProfile.email_address}</h3>
-        <button onClick={this.logoutProfile}>Log-out</button>
-        <button onClick={() => this.deleteProfile(sellerProfile.id)}>Delete Profile</button>
+        <Button variant="info" onClick={this.logoutProfile}>Log-out</Button>
+        <Button variant="warning" onClick={() => this.deleteProfile(sellerProfile.id)}>Delete Profile</Button>
       </div>
     );
   };
@@ -62,7 +62,7 @@ class SellerProfile extends Component {
     return filteredBusinesses.map(biz =>{return (
       <div>
         <h4>{biz.name}</h4>
-        <button onClick={() => this.deleteBusiness(biz.id)}>Delete Business</button>
+        <Button variant="danger" onClick={() => this.deleteBusiness(biz.id)}>Delete Business</Button>
       </div>
     )})
   }
@@ -106,7 +106,7 @@ class SellerProfile extends Component {
     let renderIDs = bidIDs.filter(bidId => !txnIDs.includes(bidId))
     let renderBids = []
     for (let i = 0; i< renderIDs.length; i++){
-      let x = filteredBids.find(el => el ===renderIDs[i])
+      let x = filteredBids.find(el => el.id ===renderIDs[i])
       renderBids.push(x)
     }
     return renderBids.map(bid => {
@@ -117,8 +117,8 @@ class SellerProfile extends Component {
         <h4>Cash Consideration: {bid.cash_consid *100}%</h4>
         {(bid.winning_bid) ? <span></span>:
           <div>
-        <button onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</button>
-        <button onClick={()=> this.selectWinningBid(bid)}>Accept Bid</button>
+        <Button variant="danger" onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</Button>
+        <Button variant="success" onClick={()=> this.selectWinningBid(bid)}>Accept Bid</Button>
           </div>
         }
         </div>
@@ -196,7 +196,7 @@ class SellerProfile extends Component {
       <div>
         <p>{this.renderSellerProfile()}</p>
         <NavLink to="/profile/newbusiness">
-          <button>Upload a New Business</button>
+          <Button variant="secondary">Upload a New Business</Button>
         </NavLink>
         <Route path="/profile/newbusiness" render={()=> <NewBusinessForm profileData={this.props.profileData} addBiz={this.props.addBiz}/>} />
         <p>My Businesses</p>

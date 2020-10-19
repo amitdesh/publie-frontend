@@ -1,23 +1,37 @@
-.container {
+#nav-container {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-  align-content: flex-start;
-  padding: 1%;
+  padding: 0.5%;
+  align-content: space-between;
   background-color: lightblue;
+  font-weight: bold;
 }
 
 .nav-button {
-  width: 150px;
+  width: 120px;
   border: white;
-  border-width: 1%;
+  border-width: 0%;
   border-style: solid;
+  font-weight: bold;
 }
 
 #website-title {
   padding: 1%;
   font-family: Arial, Helvetica, sans-serif;
-  color: white;
+  color: black;
+  font-weight: 700;
   background-color: lightblue;
+}
+
+.divider {
+  width: 5px;
+  height: auto;
+  display: inline-block;
+}
+
+#signin-tag {
+  text-align-last: right;
+}
+
+#landing-pic {
+  width: 100%;
 }

@@ -74,20 +74,20 @@ class SignupContainer extends Component {
 
   render() {
     return (
-      <div className="form-div">
+      <div>   
       <div className= "signup-container">
         <NavLink to="/signup/buyer">
-          <Button className="signup-btns" variant="outline-primary" onClick={() => this.setProfileType("buyer")}>
+          <Button className="signup-btns" variant="outline-dark" onClick={() => this.setProfileType("buyer")}>
             Sign-up as an Investor/Buyer
           </Button>
-          <br></br>
         </NavLink>
+        <div class="divider"/>
         <NavLink to="/signup/seller">
-          <Button className="signup-btns" variant="outline-primary" onClick={() => this.setProfileType("seller")}>
+          <Button className="signup-btns" variant="outline-dark" onClick={() => this.setProfileType("seller")}>
             Sign-up as a Business Seller
           </Button>
-          <br></br>
         </NavLink>
+        <div class="divider"/>
       </div>
         <Switch>
           <Route

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import Dropzone from 'react-dropzone'
+import "./signupform.css"
 
 class BuyerSignup extends Component {
   state = {
@@ -39,10 +40,9 @@ class BuyerSignup extends Component {
 
   render() {
     return (
-      <span className="signup-form">
-        <Form onSubmit={this.localSubmitHandler}>
+      <span>
+        <Form onSubmit={this.localSubmitHandler} className="signup-form">
         <Form.Group>
-
           <Form.Label for="email_address">Username (as Email Address)</Form.Label>
           <Form.Control
             type="text"
@@ -51,6 +51,9 @@ class BuyerSignup extends Component {
             placeholder="Enter username"
             onChange={this.changeHandler}
           />
+          </Form.Group>
+          <Form.Group>
+
           <Form.Label for="password">Password</Form.Label>
           <Form.Control
             type="text"
@@ -59,6 +62,9 @@ class BuyerSignup extends Component {
             placeholder="Enter password"
             onChange={this.changeHandler}
           />
+          </Form.Group>
+          <Form.Group>
+
           <Form.Label for="first_name">First Name</Form.Label>
           <Form.Control
             type="text"
@@ -67,6 +73,9 @@ class BuyerSignup extends Component {
             placeholder="Enter first name"
             onChange={this.changeHandler}
           />
+          </Form.Group>
+          <Form.Group>
+
           <Form.Label for="last_name">Last Name</Form.Label>
           <Form.Control
             type="text"
@@ -75,6 +84,9 @@ class BuyerSignup extends Component {
             placeholder="Enter last name"
             onChange={this.changeHandler}
           />
+          </Form.Group>
+          <Form.Group>
+
           <Form.Label for="company_name">Company Name</Form.Label>
           <Form.Control
             type="text"
@@ -83,6 +95,9 @@ class BuyerSignup extends Component {
             placeholder="Enter company name"
             onChange={this.changeHandler}
           />
+          </Form.Group>
+          <Form.Group>
+
           <Form.Label for="aum">Assets Under Management</Form.Label>
           <Form.Control
             type="text"
@@ -91,25 +106,9 @@ class BuyerSignup extends Component {
             placeholder="Enter Company AUM"
             onChange={this.changeHandler}
           />
-          <Form.Label for="prof_pic">Profile Picture</Form.Label>
-          <Form.Control
-            type="text"
-            name="prof_pic"
-            value={this.state.prof_pic}
-            placeholder="Enter profile picture image address"
-            onChange={this.changeHandler}
-          />
-          <br></br>
-          <Dropzone onDrop={this.onDrop} accept="image/png, image/gif,image/jpg,image/jpeg" >
-            {({getRootProps, getInputProps}) => (
-              <div {...getRootProps()}>
-									<input {...getInputProps()} />
-								{this.state.profile_pic !== null ? "Profile Picture Uploaded" :
-								"Click to here upload Profile Picture" }
-              </div>
-            )}
-        </Dropzone>
-        <br></br>
+          </Form.Group>
+          <Form.Group>
+
           <Form.Label for="industry">Primary Industry of Interest</Form.Label>
           <Form.Control as="select" name="industry" onChange={this.changeHandler}>
             <option value= "">Choose One:</option>
@@ -121,9 +120,20 @@ class BuyerSignup extends Component {
             <option value="Finance">Finance</option>
             <option value="Energy">Energy</option>
           </Form.Control>
-          <br></br>
+          </Form.Group>
+          <div className="profpic-upload">
+          <Dropzone onDrop={this.onDrop} accept="image/png, image/gif,image/jpg,image/jpeg">
+            {({getRootProps, getInputProps}) => (
+              <div {...getRootProps()}>
+									<input {...getInputProps()} />
+								{this.state.profile_pic !== null ? "Profile Picture Uploaded" :
+								"Click to here upload a profile picture" }
+              </div>
+            )}
+        </Dropzone>
+          </div>
+        <br></br>
           <Button variant="primary" type="submit">Create New Buyer/Investor Profile</Button>
-        </Form.Group>
         </Form>
       </span>
     );

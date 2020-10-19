@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import React, { Component } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
 import {withRouter} from "react-router-dom"
 
 class BidForm extends Component {
@@ -13,6 +14,7 @@ class BidForm extends Component {
 
   changeHandler = (e) => {
     e.persist();
+    console.log("state in bid form", this.state, "state of user", this.props.activeUser)
     this.setState(() => ({
       [e.target.name]: e.target.value,
     }));
@@ -26,6 +28,7 @@ class BidForm extends Component {
       [e.target.name]: ""
     }))
   }
+
 
   bidSubmitHandler = () =>{
     const options = {
@@ -53,11 +56,17 @@ class BidForm extends Component {
       });
   }
 
+  closeModal = (e) =>{
+    console.log(e.target.show)
+    e.target.show = !e.target.show
+  }
+
 
   render() {
     console.log(this.props.profileData.activeUser)
     return (
-      <form onSubmit={this.submitHandler}>
+      <span>
+      <Form onSubmit={this.submitHandler}>
         <label for="price">Total Purchase Price</label>
         <input
           type="text"
@@ -93,8 +102,9 @@ class BidForm extends Component {
           value={this.state.eq_consid}
           onChange={this.changeHandler}
         />
-        <button type="submit">Submit Bid for Business</button>
-      </form>
+        <Button variant="success" type="submit">Submit Bid for Business</Button>
+      </Form>
+      </span>
     );
   }
 }

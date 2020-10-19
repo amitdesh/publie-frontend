@@ -6,7 +6,7 @@ import SignupContainer from "./container/signupcontainer";
 import MarketplaceContainer from "./container/marketplacecontainer";
 import ProfileContainer from "./container/profilecontainer";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Button } from "react-bootstrap";
+import { Alert, Button, Nav, Navbar } from "react-bootstrap";
 
 
 class App extends React.Component {
@@ -139,24 +139,31 @@ class App extends React.Component {
       <div className="home">
       <span id="nav-bar">
         <h1 id="website-title">Welcome to the DealMaker Marketplace</h1>
-      <span className="container">
+      </span>
+      <span id="nav-container">
+      <NavLink to="/">
+      <Button variant="outline-dark" className="nav-button">Home</Button>
+          <div class="divider"/>
+      </NavLink>
         <NavLink to="/login">
-          <Button variant="secondary" className="nav-button">Log-in</Button>
-          <br></br>
+          <Button variant="outline-dark" className="nav-button">Log-in</Button>
+          <div class="divider"/>
         </NavLink>
         <NavLink to="/signup">
-          <Button variant="secondary" className="nav-button">Sign-up</Button>
-          <br></br>
+          <Button variant="outline-dark" className="nav-button">Sign-up</Button>
+          <div class="divider"/>
         </NavLink>
         <NavLink to="/marketplace">
-          <Button variant="secondary" className="nav-button">Marketplace</Button>
-          <br></br>
+          <Button variant="outline-dark" className="nav-button">Marketplace</Button>
+          <div class="divider"/>
         </NavLink>
         <NavLink to="/profile">
-          <Button variant="secondary" className="nav-button">My Profile</Button>
-          <br></br>
+          <Button variant="outline-dark" className="nav-button">My Profile</Button>
+          <div class="divider"/>
         </NavLink>
+        {/* <h6 id="signin-tag">Hello World</h6> */}
       </span>
+        {/* <img id="landing-pic" src="https://miro.medium.com/max/14000/1*LpbDW-kW6Jh85WFAFEKwlQ.jpeg" alt=""/> */}
         <Switch>
           <Route
             path="/login"
@@ -194,7 +201,6 @@ class App extends React.Component {
             )}
           />
         </Switch>
-      </span>
       </div>
     );
   }

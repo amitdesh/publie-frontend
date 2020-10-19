@@ -1,12 +1,18 @@
 .signup-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: left;
   align-items: stretch;
   align-content: flex-start;
-  padding: 2%;
+  margin-top: 0.5%;
+  padding: 0.5%;
+  background-color: lightblue;
 }
 
 /* .form-div {
   padding: 5%;
 } */
+
+#space {
+  background-color: white;
+}

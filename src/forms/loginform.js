@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {Form, Button} from "react-bootstrap"
+import "./loginform.css"
 
 class LoginForm extends Component {
   state = {
@@ -25,13 +26,13 @@ class LoginForm extends Component {
   };
 
   localSetProfileType = (e) => {
-    console.log(e.target.value);
     this.props.setProfileType(e.target.value);
   };
 
   render() {
     return (
-      <span className="login-form">
+      <span>
+      <div className="login-form">
         <Form.Group>
         <Form.Label>I am a: </Form.Label>
         <Form.Control as="select" custom className="form" onChange={this.localSetProfileType}>
@@ -41,7 +42,7 @@ class LoginForm extends Component {
         </Form.Control>
         <br></br>
         </Form.Group>
-        <Form onSubmit={this.localSubmitHandler}>
+        <Form onSubmit={this.localSubmitHandler} className="login-form">
         <Form.Group>
           <Form.Label>Username (as Email Address)</Form.Label>
           <Form.Control
@@ -53,9 +54,9 @@ class LoginForm extends Component {
           />
           </Form.Group>
           <Form.Group>
-          <Form.Label>Password: </Form.Label>
+          <Form.Label>Password</Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             name="password"
             placeholder="Enter password"
             value={this.state.password}
@@ -65,6 +66,7 @@ class LoginForm extends Component {
           <Button variant="primary" type="submit">Log-In</Button>
         </Form.Group>
         </Form>
+      </div>
       </span>
     );
   }

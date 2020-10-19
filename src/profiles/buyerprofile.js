@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {withRouter } from "react-router-dom";
+import {Button} from "react-bootstrap"
 
 class BuyerProfile extends Component {
 
@@ -10,16 +11,6 @@ class BuyerProfile extends Component {
   }
   
   componentDidMount(){
-    // let userID = this.props.profileData.activeUser.buyer.id
-    // let businesses = this.props.profileData.businesses
-    // let assocBusinesses = []
-    // for (let i=0; i<businesses.length; i++){
-    //   for (let j=0; j<businesses[i].bids.length; j++){
-    //     if (businesses[i].bids[j].buyer_id === userID){
-    //       assocBusinesses.push(businesses[i])
-    //     }
-    //   }
-    // }
     this.setState(()=>({
       bids: this.props.profileData.bids,
       businesses: this.props.profileData.businesses,
@@ -32,8 +23,7 @@ class BuyerProfile extends Component {
     let buyerProfile = this.props.profileData.activeUser.buyer;
     return (
       <div>
-        <img src={buyerProfile.prof_pic} alt="" />
-        <img className="background-image" src={this.props.profileData.activeUser.picture} alt="background" />
+        <img className="profile-image" src={this.props.profileData.activeUser.picture} alt="background" />
         <h3>
           Name: {buyerProfile.first_name}{" "}
           {buyerProfile.last_name}
@@ -42,8 +32,10 @@ class BuyerProfile extends Component {
         <h3>AUM: {buyerProfile.aum}</h3>
         <h3>Primary Industry of Interest: {buyerProfile.industry}</h3>
         <h3>Email Address: {buyerProfile.email_address}</h3>
-        <button onClick={this.logoutProfile}>Log-out</button>
-        <button onClick={() => this.deleteProfile(buyerProfile.id)}>Delete Profile</button>
+        <span>
+        <Button variant="info" onClick={this.logoutProfile}>Log-out</Button>
+        <Button variant="warning" onClick={() => this.deleteProfile(buyerProfile.id)}>Delete Profile</Button>
+        </span>
       </div>
     );
   };
@@ -76,19 +68,21 @@ class BuyerProfile extends Component {
     let txnIDs = filteredTxns.map(txn => txn.bid_id)
     let bidIDs = filteredBids.map(bid => bid.id)
     let renderIDs = bidIDs.filter(bidId => !txnIDs.includes(bidId))
+    console.log("render bid IDs", renderIDs)
     let renderBids = []
     for (let i = 0; i< renderIDs.length; i++){
-      let x = filteredBids.find(el => el ===renderIDs[i])
+      let x = filteredBids.find(el => el.id ===renderIDs[i])
       renderBids.push(x)
     }
+    console.log("this is renderbids", renderBids)
         return renderBids.map(bid => {
           return(
-            <div>
+          <div>
           <h4>Business Name: {bid.business.name}</h4>
           <h4>Bid Price: ${bid.bid_price}</h4>
           <h4>Cash Consideration: {bid.cash_consid *100}%</h4>
           {(bid.winning_bid) ? <span></span>:
-          <button onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</button>} 
+          <Button variant="danger" onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</Button>} 
           </div>
         )
         })

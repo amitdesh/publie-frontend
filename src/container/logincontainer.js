@@ -42,7 +42,6 @@ class LoginContainer extends Component {
   render() {
     return (
       <div className="form-div">
-        <h2 className="test">User Log-in</h2>
         <LoginForm
           submitHandler={this.submitHandler}
           setProfileType={this.setProfileType}

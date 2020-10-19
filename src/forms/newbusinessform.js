@@ -35,7 +35,6 @@ class NewBusinessForm extends Component {
     this.setState({
       biz_picture: acceptedFiles[0]
     })
-    console.log(this.state.biz_picture)
   }
 
   bizSubmitHandler = () =>{
@@ -60,7 +59,6 @@ class NewBusinessForm extends Component {
     fetch("http://localhost:3000/businesses", options)
       .then((resp) => resp.json())
       .then((biz) => {
-        console.log("BizHandler return value", biz);
         this.props.addBiz(biz)
         this.props.history.push("/marketplace")
       });

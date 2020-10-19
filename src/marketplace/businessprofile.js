@@ -10,6 +10,7 @@ class BusinessProfile extends Component {
     biz_type,
     employees,
     revenue,
+    description
   }) => {
     return (
       <div>
@@ -20,6 +21,7 @@ class BusinessProfile extends Component {
         <h5>Business Type: {biz_type}</h5>
         <h5>Employees: {employees}</h5>
         <h5>Revenue: {revenue}</h5>
+        <h5>Description: {description}</h5>
       </div>
     );
   };
@@ -28,7 +30,7 @@ class BusinessProfile extends Component {
     let bidCount = this.props.business.bids.length;
     if (bidCount > 0){
       let totalPrice = this.props.business.bids.reduce(
-        (b) => 0 + b.bid_price)
+        (a, b) => parseInt(a.bid_price) + parseInt(b.bid_price))
         return totalPrice / bidCount;
     } else {
       return 0
@@ -74,9 +76,9 @@ class BusinessProfile extends Component {
         ) : (
           <div>
             <div>{this.renderProfileInformation(this.props.business)}</div>
-            <div>{this.renderBidForm()}</div>
-            <div>{this.renderActiveBids()}</div>
-            <div>{this.renderTransactions()}</div>
+            {/* <div>{this.renderBidForm()}</div> */}
+            {/* <div>{this.renderActiveBids()}</div>
+            <div>{this.renderTransactions()}</div> */}
           </div>
         )}
       </div>
