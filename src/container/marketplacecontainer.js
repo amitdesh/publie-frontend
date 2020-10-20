@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Switch, Route, withRouter } from "react-router-dom";
+import {withRouter } from "react-router-dom";
 import SearchForm from "../forms/searchform";
-import BusinessProfile from "../marketplace/businessprofile";
 import BusinessTile from "../marketplace/businesstiles";
+import {CardDeck} from "react-bootstrap"
 
 class MarketplaceContainer extends Component {
   state = {
@@ -33,7 +33,10 @@ class MarketplaceContainer extends Component {
     return (
       <div>
         <SearchForm searchHandler={this.changeHandler} searchTerm={this.state.searchTerm} searchCrit={this.state.searchCrit} />
-        <h1>{this.renderBusinessTiles()}</h1>
+        <br></br>
+        <CardDeck>
+        {this.renderBusinessTiles()}
+        </CardDeck>
       </div>
     );
   }

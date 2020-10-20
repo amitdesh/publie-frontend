@@ -10,7 +10,6 @@ class BusinessProfile extends Component {
     biz_type,
     employees,
     revenue,
-    description
   }) => {
     return (
       <div>
@@ -20,8 +19,7 @@ class BusinessProfile extends Component {
         <h5>Founder: {founder_name}</h5>
         <h5>Business Type: {biz_type}</h5>
         <h5>Employees: {employees}</h5>
-        <h5>Revenue: {revenue}</h5>
-        <h5>Description: {description}</h5>
+        <h5>Revenue: ${revenue}MM</h5>
       </div>
     );
   };

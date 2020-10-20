@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import React, { Component } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import {withRouter} from "react-router-dom"
 
 class BidForm extends Component {
@@ -67,42 +67,49 @@ class BidForm extends Component {
     return (
       <span>
       <Form onSubmit={this.submitHandler}>
-        <label for="price">Total Purchase Price</label>
-        <input
+        <Form.Group>
+
+        <Form.Label for="price">Total Purchase Price ($ MM)</Form.Label>
+        <Form.Control
           type="text"
           name="bid_price"
           placeholder="Enter total purchase consideration"
           value={this.state.price}
           onChange={this.changeHandler}
         />
-        <br></br>
-        <label for="closing">Deal Closing Timeline (in days)</label>
-        <input
+        </Form.Group>
+        <Form.Group>
+        <Form.Label for="closing">Deal Closing Timeline (in days)</Form.Label>
+        <Form.Control
           type="number"
           name="closing_timeline"
           placeholder="Enter closing timeline (in days)"
           value={this.state.closing}
           onChange={this.changeHandler}
         />
-        <br></br>
-        <label for="cash_consid">Total Purchase Consideration in Cash</label>
-        <input
+        </Form.Group>
+        <Form.Group>
+        <Form.Label for="cash_consid">Total Purchase Consideration in Cash (%)</Form.Label>
+        <Form.Control
           type="number"
           name="cash_consid"
           placeholder="Total cash consideration"
           value={this.state.cash_consid}
           onChange={this.changeHandler}
         />
-        <br></br>
-        <label for="eq_consid">Total Purchase Consideration in Eq</label>
-        <input
+        </Form.Group>
+        <Form.Group>
+        <Form.Label for="eq_consid">Total Purchase Consideration in Equity (%)</Form.Label>
+        <Form.Control
           type="number"
           name="eq_consid"
           placeholder="Total equity consideration"
           value={this.state.eq_consid}
           onChange={this.changeHandler}
         />
+        <br></br>
         <Button variant="success" type="submit">Submit Bid for Business</Button>
+        </Form.Group>
       </Form>
       </span>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Card, Button } from "react-bootstrap";
-import { NavLink, Route, withRouter, Switch } from "react-router-dom";
+import { Card, Button, Tabs, Tab } from "react-bootstrap";
+import {Route, withRouter, Switch } from "react-router-dom";
 import BidForm from "../forms/bidform"
 import BusinessProfile from "./businessprofile";
 import "./businesstiles.css"
@@ -27,17 +27,28 @@ class BusinessTile extends Component {
     return (
       <div>
         <div id="card-container">
-        <Card border="primary" style={{width: '25%'}}>
+        <Card border="primary" style={{width: '100%'}}>
           <Card.Img variant="top" src={this.props.business.biz_picture.url} alt="Image not found" />
           <Card.Body>
             <Card.Title>{this.props.business.name}</Card.Title>
+            <Tabs defaultActiveKey="summary">
+              <Tab eventKey="summary" title="Summary">
             <Card.Text>
-            <h3>Founder: {this.props.business.founder_name}</h3>
-            <h3>Industry: {this.props.business.industry}</h3>
+            <br></br>
+            <BusinessProfile business={this.props.business} profileData={this.props.profileData} addBid={this.props.addBid} />
             </Card.Text>
-            <Button onClick={this.clickForProfile} variant="primary">View Business Profile</Button>
+              </Tab>
+              <Tab eventKey="description" title="Description">
+              <br></br>
+              <p>{this.props.business.description}</p>
+              </Tab>
             {(this.props.profileData.userType === "buyer") ?
-            <Button onClick={this.clickForBid} variant="info">Bid On Business</Button> : <span></span>}
+              <Tab eventKey="bid-form" title="Business Bid Form">
+              <br></br>
+              <BidForm profileData={this.props.profileData} business={this.props.business} addBid={this.props.addBid} />
+              </Tab> : <br></br>}
+            </Tabs>
+            {/* <Button onClick={this.clickForProfile} variant="primary">View Business Profile</Button> */}
           </Card.Body>
         </Card>
         </div>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {withRouter} from "react-router-dom"
 import Dropzone from 'react-dropzone'
+import { Form, Button } from "react-bootstrap";
 
 class NewBusinessForm extends Component {
   state = {
@@ -66,28 +67,32 @@ class NewBusinessForm extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit= {this.submitHandler}>
-          <label for="name">Business Name</label>
-          <input
+      <span>
+        <Form onSubmit= {this.submitHandler}>
+          <Form.Group>
+          <Form.Label for="name">Business Name</Form.Label>
+          <Form.Control
             type="text"
             name="name"
             value={this.state.name}
             placeholder="Enter business name"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="location">Business Location (HQ)</label>
-          <input
+          </Form.Group>
+          <Form.Group>
+          <Form.Label for="location">Business Location (HQ)</Form.Label>
+          <Form.Control
             type="text"
             name="location"
             value={this.state.location}
             placeholder="Enter business HQ location"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="industry">Industry</label>
-          <select name="industry" onChange={this.changeHandler}>
+          </Form.Group>
+          <Form.Group>
+          <Form.Label for="industry">Industry</Form.Label>
+          <Form.Control as="select" name="industry" onChange={this.changeHandler}>
+            <option value="">Choose One:</option>
             <option value="Technology">Technology</option>
             <option value="Consumer-Retail">Consumer-Retail</option>
             <option value="Business Services">Business Services</option>
@@ -95,53 +100,59 @@ class NewBusinessForm extends Component {
             <option value="Healthcare">Healthcare</option>
             <option value="Finance">Finance</option>
             <option value="Energy">Energy</option>
-          </select>
-          <br></br>
-          <label for="founder_name">Founder/CEO Name</label>
-          <input
+          </Form.Control>
+          </Form.Group>
+          <Form.Group>
+          <Form.Label for="founder_name">Founder/CEO Name</Form.Label>
+          <Form.Control
             type="text"
             name="founder_name"
             value={this.state.founder_name}
             placeholder="Enter founder/CEO name"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="biz_type">Type of Business</label>
-          <select name="biz_type" onChange={this.changeHandler}>
+          </Form.Group>
+          <Form.Group>
+          <Form.Label for="biz_type">Type of Business</Form.Label>
+          <Form.Control as="select" name="biz_type" onChange={this.changeHandler}>
+            <option value= "">Choose One:</option>
             <option value="Self-Started">Self-Started</option>
             <option value="Family Business">Family Business</option>
             <option value="SME">SME</option>
             <option value="Investor-backed">Investor-backed</option>
             <option value="Institutional">Institutional</option>
-          </select>
-          <br></br>
-          <label for="employees">Number of Employees</label>
-          <input
+          </Form.Control>
+          </Form.Group>
+          <Form.Group>
+          <Form.Label for="employees">Number of Employees</Form.Label>
+          <Form.Control
             type="number"
             name="employees"
             value={this.state.employees}
             placeholder="Enter number of employees"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="revenue">Company Revenue</label>
-          <input
+          </Form.Group>
+          <Form.Group>
+          <Form.Label for="revenue">Company Revenue ($ MM)</Form.Label>
+          <Form.Control
             type="number"
             name="revenue"
             value={this.state.revenue}
             placeholder="Enter company revenue"
             onChange={this.changeHandler}
           />
-          <br></br>
-          <label for="description">Business Description</label>
-          <textarea
+          </Form.Group>
+          <Form.Group>
+          <Form.Label for="description">Business Description</Form.Label>
+          <Form.Control as="textarea"
             type="text"
             name="description"
             value={this.state.description}
             placeholder="Enter business description"
             onChange={this.changeHandler}
           />
-          <br></br>
+          </Form.Group>
           <Dropzone onDrop={this.onDrop} multiple accept="image/png, image/gif,image/jpg,image/jpeg" >
             {({getRootProps, getInputProps}) => (
               <div {...getRootProps()}>
@@ -151,9 +162,10 @@ class NewBusinessForm extends Component {
               </div>
             )}
         </Dropzone>
-          <button type="submit">Create New Business Posting</button>
-        </form>
-      </div>
+        <br></br>
+          <Button variant="success" type="submit">Create New Business Posting</Button>
+        </Form>
+      </span>
     );
   }
 }

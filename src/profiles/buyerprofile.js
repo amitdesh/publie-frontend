@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {withRouter } from "react-router-dom";
-import {Button} from "react-bootstrap"
+import {Button, Table} from "react-bootstrap"
+import "./profilepage.css"
 
 class BuyerProfile extends Component {
 
@@ -23,19 +24,25 @@ class BuyerProfile extends Component {
     let buyerProfile = this.props.profileData.activeUser.buyer;
     return (
       <div>
-        <img className="profile-image" src={this.props.profileData.activeUser.picture} alt="background" />
-        <h3>
+      <div>
+        <img className="prof-pic" src={this.props.profileData.activeUser.picture} alt="background" />
+        <div class="divider"/>
+      </div>
+      <br></br>
+      <div className= "profile-container">
+        <h2>Profile Information</h2>
+        <h4>
           Name: {buyerProfile.first_name}{" "}
           {buyerProfile.last_name}
-        </h3>
-        <h3>Company Name: {buyerProfile.company_name}</h3>
-        <h3>AUM: {buyerProfile.aum}</h3>
-        <h3>Primary Industry of Interest: {buyerProfile.industry}</h3>
-        <h3>Email Address: {buyerProfile.email_address}</h3>
-        <span>
+        </h4>
+        <h4>Company Name: {buyerProfile.company_name}</h4>
+        <h4>AUM: ${buyerProfile.aum}</h4>
+        <h4>Primary Industry of Interest: {buyerProfile.industry}</h4>
+        <h4>Email Address: {buyerProfile.email_address}</h4>
         <Button variant="info" onClick={this.logoutProfile}>Log-out</Button>
+        <div class="divider"/>
         <Button variant="warning" onClick={() => this.deleteProfile(buyerProfile.id)}>Delete Profile</Button>
-        </span>
+      </div>
       </div>
     );
   };
@@ -77,13 +84,12 @@ class BuyerProfile extends Component {
     console.log("this is renderbids", renderBids)
         return renderBids.map(bid => {
           return(
-          <div>
-          <h4>Business Name: {bid.business.name}</h4>
-          <h4>Bid Price: ${bid.bid_price}</h4>
-          <h4>Cash Consideration: {bid.cash_consid *100}%</h4>
-          {(bid.winning_bid) ? <span></span>:
-          <Button variant="danger" onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</Button>} 
-          </div>
+          <tr>
+          <td>{bid.business.name}</td>
+          <td>${bid.bid_price}</td>
+          <td>{bid.cash_consid *100}%</td>
+          <td><Button variant="danger" onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</Button></td>
+          </tr>
         )
         })
   };
@@ -113,11 +119,11 @@ class BuyerProfile extends Component {
     let filteredTxns = this.props.profileData.txns.filter(txn => txn.buyer_id === userID)
     return filteredTxns.map(txn => {
       return(
-        <div>
-        <h4>Business Name: {txn.business.name}</h4>
-        <h4>Final Price: ${txn.bid.bid_price}</h4>
-        <h4>Cash Consideration: {txn.bid.cash_consid *100}%</h4>
-        </div>
+        <tr>
+        <td>{txn.business.name}</td>
+        <td>${txn.bid.bid_price}</td>
+        <td>{txn.bid.cash_consid *100}%</td>
+        </tr>
       )
     })
   }
@@ -125,12 +131,61 @@ class BuyerProfile extends Component {
   render() {
     console.log(this.props.profileData)
     return (
-      <div>
-        <p>{this.renderBuyerProfile()}</p>
-        <h3>Active Bids</h3>
-        <p>{(this.state.bids.length >0) ? this.renderBidSummary() : <h5>No current active bids on the market.</h5>}</p>
-        <h3>Completed Transactions</h3>
-        <p>{(this.state.txns.length > 0) ? this.renderTransactionSummary(): <h4>You currently have currently no transactions completed.</h4>}</p>
+      <div className ="main-container">
+        {this.renderBuyerProfile()}
+        <div class="divider"/>
+        <div className= "profile-container">
+        <Table>
+        <thead>
+          <tr>
+        <h2>My Bids</h2>
+          </tr>
+          <tr>
+          <th>
+            Business Name
+          </th>
+          <th>
+            Bid Price ($ MM)
+          </th>
+          <th>
+            Cash Consideration (%)
+          </th>
+           <th>
+            Delete Bid
+          </th>
+          </tr>
+        </thead>
+        <tbody>
+        {(this.state.bids.length >0) ? this.renderBidSummary() : <h5>No active bids placed.</h5>}
+        </tbody>
+        <div class="divider"/>
+        </Table>
+        </div>
+        <div class="divider"/>
+        <div className= "profile-container">
+        <Table>
+        <thead>
+          <tr>
+        <h2>My Transactions</h2>
+          </tr>
+          <tr>
+          <th>
+            Business Name
+          </th>
+          <th>
+            Bid Price($ MM)
+          </th>
+          <th>
+            Cash Consideration (%)
+          </th>
+          </tr>
+        </thead>
+        <tbody>
+        {(this.state.txns.length > 0) ? this.renderTransactionSummary() : <h5>No transactions completed.</h5>}
+        </tbody>
+        </Table>
+        </div>
+        <div class="divider"/>
       </div>
     );
   }

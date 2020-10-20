@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
-import { NavLink, Route, withRouter } from "react-router-dom";
+import { Button, Table, Tabs, Tab } from "react-bootstrap";
+import { NavLink, withRouter } from "react-router-dom";
 import NewBusinessForm from "../forms/newbusinessform"
+import "./profilepage.css"
 
 class SellerProfile extends Component {
 
@@ -16,7 +17,7 @@ class SellerProfile extends Component {
       bids: this.props.profileData.bids,
       businesses: this.props.profileData.businesses,
       txns: this.props.profileData.txns
-    }),()=> console.log("state in seller profile", this.state))
+    }))
   }
 
 
@@ -24,14 +25,22 @@ class SellerProfile extends Component {
     let sellerProfile = this.props.profileData.activeUser.seller
     return (
       <div>
-        <img className="background-image" src={this.props.profileData.activeUser.picture} alt="background" />
-        <h3>
+      <div>
+        <img className="prof-pic" src={this.props.profileData.activeUser.picture} alt="background" />
+        <div class="divider"/>
+      </div>
+        <br></br>
+        <div className= "profile-container">
+        <h2>Profile Information</h2>
+        <h4>
           Name: {sellerProfile.first_name}{" "}
           {sellerProfile.last_name}
-        </h3>
-        <h3>Email Address: {sellerProfile.email_address}</h3>
+        </h4>
+        <h4>Email Address: {sellerProfile.email_address}</h4>
         <Button variant="info" onClick={this.logoutProfile}>Log-out</Button>
+        <div class="divider"/>
         <Button variant="warning" onClick={() => this.deleteProfile(sellerProfile.id)}>Delete Profile</Button>
+        </div>
       </div>
     );
   };
@@ -60,10 +69,11 @@ class SellerProfile extends Component {
     let userID = this.props.profileData.activeUser.seller.id
     let filteredBusinesses = this.props.profileData.businesses.filter(biz => biz.seller_id === userID)
     return filteredBusinesses.map(biz =>{return (
-      <div>
-        <h4>{biz.name}</h4>
-        <Button variant="danger" onClick={() => this.deleteBusiness(biz.id)}>Delete Business</Button>
-      </div>
+      <tr>
+        <td>{biz.name}</td>
+        <td>{biz.industry}</td>
+        <td><Button variant="danger" onClick={() => this.deleteBusiness(biz.id)}>Delete Business</Button></td>
+      </tr>
     )})
   }
 
@@ -111,20 +121,17 @@ class SellerProfile extends Component {
     }
     return renderBids.map(bid => {
       return(
-        <div>
-        <h4>Business Name: {bid.business.name}</h4>
-        <h4>Bid Price: ${bid.bid_price}</h4>
-        <h4>Cash Consideration: {bid.cash_consid *100}%</h4>
-        {(bid.winning_bid) ? <span></span>:
-          <div>
-        <Button variant="danger" onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</Button>
-        <Button variant="success" onClick={()=> this.selectWinningBid(bid)}>Accept Bid</Button>
-          </div>
-        }
-        </div>
+        <tr>
+        <td>{bid.business.name}</td>
+        <td>${bid.bid_price}</td>
+        <td>{bid.cash_consid *100}%</td>
+        <td><Button variant="success" onClick={()=> this.selectWinningBid(bid)}>Accept Bid</Button></td>
+        <td><Button variant="danger" onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</Button></td>
+        </tr>
+      )}
       )
-    })
-  }
+    }
+  
   
 
   localDeleteBidHandler = (bidID) =>{
@@ -179,11 +186,11 @@ class SellerProfile extends Component {
     return filteredTxns.map(txn => {
       console.log(txn)
       return(
-        <div>
-        <h4>Business Name: {txn.business.name}</h4>
-        <h4>Final Price: ${txn.bid.bid_price}</h4>
-        <h4>Cash Consideration: {txn.bid.cash_consid *100}%</h4>
-        </div>
+        <tr>
+        <td>{txn.business.name}</td>
+        <td>${txn.bid.bid_price}</td>
+        <td>{txn.bid.cash_consid *100}%</td>
+        </tr>
       )
     })
   }
@@ -193,18 +200,100 @@ class SellerProfile extends Component {
   render() {
     console.log("currently listed businesses", this.state.businesses)
     return (
-      <div>
-        <p>{this.renderSellerProfile()}</p>
+      <div className ="main-container">
+        {this.renderSellerProfile()}
+        <div class="divider"/>
+        <div className= "profile-container">
+        <Tabs defaultActiveKey="mybusinesses">
+          <Tab eventKey="mybusinesses" title="My Businesses">
+        <Table>
+        <thead>
+        <tr>
+        <h2>My Businesses</h2>
         <NavLink to="/profile/newbusiness">
           <Button variant="secondary">Upload a New Business</Button>
         </NavLink>
-        <Route path="/profile/newbusiness" render={()=> <NewBusinessForm profileData={this.props.profileData} addBiz={this.props.addBiz}/>} />
-        <p>My Businesses</p>
-        <p>{(this.state.businesses) ? this.renderBusinesses(): <h4>You currently have no active business postings.</h4>}</p>
-        <p>My Bids</p>
-        <p>{(this.state.bids.length >0) ? this.renderBidSummary() : <h5>No current active bids for your business(es).</h5>}</p>
-        <h3>Completed Transactions</h3>
-        <p>{(this.state.txns.length > 0) ? <p>{this.renderTransactionSummary()}</p>: <h4>You currently have currently no transactions completed.</h4>}</p>
+        </tr>
+        <div class="divider"/>
+        <tr>
+          <th>
+            Business Name
+          </th>
+          <th>
+            Industry
+          </th>
+          <th>
+            Action
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        {(this.state.businesses) ? this.renderBusinesses(): <h5>No active business postings.</h5>}
+        </tbody>
+        <div class="divider"/>
+        </Table>
+          </Tab>
+          <Tab eventKey="new-business" title="Upload New Business">
+          <NewBusinessForm profileData={this.props.profileData} addBiz={this.props.addBiz}/>
+          </Tab>
+        </Tabs>
+        </div>
+        <div class="divider"/>
+        <div className= "profile-container">
+        <Table>
+        <thead>
+          <tr>
+        <h2>My Bids</h2>
+          </tr>
+          <tr>
+          <th>
+            Business Name
+          </th>
+          <th>
+            Bid Price ($ MM)
+          </th>
+          <th>
+            Cash Consideration (%)
+          </th>
+          <th>
+            Accept Bid
+          </th>
+          <th>
+            Delete Bid
+          </th>
+          </tr>
+        </thead>
+        <tbody>
+        {(this.state.bids.length >0) ? this.renderBidSummary() : <h5>No active bids for your business(es).</h5>}
+        </tbody>
+        <div class="divider"/>
+        </Table>
+        </div>
+        <div class="divider"/>
+        <div className= "profile-container">
+        <Table>
+        <thead>
+          <tr>
+        <h2>My Transactions</h2>
+          </tr>
+          <tr>
+          <th>
+            Business Name
+          </th>
+          <th>
+            Bid Price($ MM)
+          </th>
+          <th>
+            Cash Consideration (%)
+          </th>
+          </tr>
+        </thead>
+        <tbody>
+        {(this.state.txns.length > 0) ? this.renderTransactionSummary() : <h5>No transactions completed.</h5>}
+        </tbody>
+        </Table>
+        </div>
+        <div class="divider"/>
       </div>
     );
   }

@@ -1,0 +1,20 @@
+.divider {
+  width: 5px;
+  height: auto;
+  display: inline-block;
+}
+.main-container {
+  padding: 1%;
+}
+
+.profile-container {
+  padding: 1%;
+  border: darkblue;
+  border-width: 0.5%;
+  border-style: solid;
+}
+
+.prof-pic {
+  max-width: 50%;
+  height: auto;
+}

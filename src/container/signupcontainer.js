@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink, Route, Switch, withRouter } from "react-router-dom";
 import BuyerSignup from "../forms/sellersignup";
 import SellerSignup from "../forms/buyersignup";
-import {Form, Button} from "react-bootstrap"
+import {Button} from "react-bootstrap"
 import "./signupcont.css"
 
 class SignupContainer extends Component {
@@ -77,13 +77,13 @@ class SignupContainer extends Component {
       <div>   
       <div className= "signup-container">
         <NavLink to="/signup/buyer">
-          <Button className="signup-btns" variant="outline-dark" onClick={() => this.setProfileType("buyer")}>
+          <Button className="signup-btns" variant="outline-light" onClick={() => this.setProfileType("buyer")}>
             Sign-up as an Investor/Buyer
           </Button>
         </NavLink>
         <div class="divider"/>
         <NavLink to="/signup/seller">
-          <Button className="signup-btns" variant="outline-dark" onClick={() => this.setProfileType("seller")}>
+          <Button className="signup-btns" variant="outline-light" onClick={() => this.setProfileType("seller")}>
             Sign-up as a Business Seller
           </Button>
         </NavLink>

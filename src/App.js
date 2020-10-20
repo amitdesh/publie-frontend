@@ -6,7 +6,7 @@ import SignupContainer from "./container/signupcontainer";
 import MarketplaceContainer from "./container/marketplacecontainer";
 import ProfileContainer from "./container/profilecontainer";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Alert, Button, Nav, Navbar } from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 
 class App extends React.Component {
@@ -138,27 +138,27 @@ class App extends React.Component {
     return (
       <div className="home">
       <span id="nav-bar">
-        <h1 id="website-title">Welcome to the DealMaker Marketplace</h1>
+        <h1 id="website-title">Welcome to eBusinessBay</h1>
       </span>
       <span id="nav-container">
       <NavLink to="/">
-      <Button variant="outline-dark" className="nav-button">Home</Button>
+      <Button variant="outline-light" className="nav-button">Home</Button>
           <div class="divider"/>
       </NavLink>
         <NavLink to="/login">
-          <Button variant="outline-dark" className="nav-button">Log-in</Button>
+          <Button variant="outline-light" className="nav-button">Log-in</Button>
           <div class="divider"/>
         </NavLink>
         <NavLink to="/signup">
-          <Button variant="outline-dark" className="nav-button">Sign-up</Button>
+          <Button variant="outline-light" className="nav-button">Sign-up</Button>
           <div class="divider"/>
         </NavLink>
         <NavLink to="/marketplace">
-          <Button variant="outline-dark" className="nav-button">Marketplace</Button>
+          <Button variant="outline-light" className="nav-button">Marketplace</Button>
           <div class="divider"/>
         </NavLink>
         <NavLink to="/profile">
-          <Button variant="outline-dark" className="nav-button">My Profile</Button>
+          <Button variant="outline-light" className="nav-button">My Profile</Button>
           <div class="divider"/>
         </NavLink>
         {/* <h6 id="signin-tag">Hello World</h6> */}
