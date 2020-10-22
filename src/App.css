@@ -2,7 +2,7 @@
   display: flex;
   padding: 0.5%;
   align-content: space-between;
-  background-color: blue;
+  background-color: darkblue;
   font-weight: bold;
 }
 
@@ -19,7 +19,7 @@
   font-family: Arial, Helvetica, sans-serif;
   color: white;
   font-weight: 700;
-  background-color: blue;
+  background-color: darkblue;
 }
 
 .divider {

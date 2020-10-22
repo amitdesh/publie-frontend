@@ -68,6 +68,7 @@ class NewBusinessForm extends Component {
   render() {
     return (
       <span>
+      <br></br>
         <Form onSubmit= {this.submitHandler}>
           <Form.Group>
           <Form.Label for="name">Business Name</Form.Label>

@@ -36,7 +36,7 @@ class BuyerProfile extends Component {
           {buyerProfile.last_name}
         </h4>
         <h4>Company Name: {buyerProfile.company_name}</h4>
-        <h4>AUM: ${buyerProfile.aum}</h4>
+        <h4>Assets Under Management: ${this.thousandsSeparators(buyerProfile.aum)} MM</h4>
         <h4>Primary Industry of Interest: {buyerProfile.industry}</h4>
         <h4>Email Address: {buyerProfile.email_address}</h4>
         <Button variant="info" onClick={this.logoutProfile}>Log-out</Button>
@@ -46,6 +46,12 @@ class BuyerProfile extends Component {
       </div>
     );
   };
+
+  thousandsSeparators = (num) => {
+    let num_parts = num.toString().split(".");
+    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return num_parts.join(".");
+  }
 
   deleteProfile = (buyerID) =>{
     let options ={
@@ -86,7 +92,7 @@ class BuyerProfile extends Component {
           return(
           <tr>
           <td>{bid.business.name}</td>
-          <td>${bid.bid_price}</td>
+          <td>${this.thousandsSeparators(bid.bid_price)}</td>
           <td>{bid.cash_consid *100}%</td>
           <td><Button variant="danger" onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</Button></td>
           </tr>
@@ -121,7 +127,7 @@ class BuyerProfile extends Component {
       return(
         <tr>
         <td>{txn.business.name}</td>
-        <td>${txn.bid.bid_price}</td>
+        <td>${this.thousandsSeparators(txn.bid.bid_price)}</td>
         <td>{txn.bid.cash_consid *100}%</td>
         </tr>
       )

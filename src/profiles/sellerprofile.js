@@ -123,7 +123,7 @@ class SellerProfile extends Component {
       return(
         <tr>
         <td>{bid.business.name}</td>
-        <td>${bid.bid_price}</td>
+        <td>${this.thousandsSeparators(bid.bid_price)}</td>
         <td>{bid.cash_consid *100}%</td>
         <td><Button variant="success" onClick={()=> this.selectWinningBid(bid)}>Accept Bid</Button></td>
         <td><Button variant="danger" onClick={()=> this.localDeleteBidHandler(bid.id, bid.business_id)}>Delete Bid</Button></td>
@@ -188,11 +188,17 @@ class SellerProfile extends Component {
       return(
         <tr>
         <td>{txn.business.name}</td>
-        <td>${txn.bid.bid_price}</td>
+        <td>${this.thousandsSeparators(txn.bid.bid_price)}</td>
         <td>{txn.bid.cash_consid *100}%</td>
         </tr>
       )
     })
+  }
+
+  thousandsSeparators = (num) => {
+    let num_parts = num.toString().split(".");
+    num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return num_parts.join(".");
   }
 
 
@@ -209,10 +215,8 @@ class SellerProfile extends Component {
         <Table>
         <thead>
         <tr>
+        <br></br>
         <h2>My Businesses</h2>
-        <NavLink to="/profile/newbusiness">
-          <Button variant="secondary">Upload a New Business</Button>
-        </NavLink>
         </tr>
         <div class="divider"/>
         <tr>
